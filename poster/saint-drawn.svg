@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" class="icon">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7d774"/><stop offset=".5" stop-color="#d9a826"/><stop offset="1" stop-color="#b8860b"/>
+    </linearGradient>
+    <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fff3b0"/><stop offset="1" stop-color="#e2b12e"/>
+    </radialGradient>
+    <linearGradient id="horse" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dcd6cc"/>
+    </linearGradient>
+    <clipPath id="arch"><path d="M20 520 V150 A180 140 0 0 1 380 150 V520 Z"/></clipPath>
+  </defs>
+  <rect width="400" height="520" rx="18" fill="#7a1f1f"/>
+  <path d="M20 520 V150 A180 140 0 0 1 380 150 V520 Z" fill="url(#gold)"/>
+  <g clip-path="url(#arch)">
+    <!-- heaven segment with blessing hand -->
+    <circle cx="380" cy="20" r="95" fill="#1e3a8a"/>
+    <circle cx="380" cy="20" r="75" fill="#2b54b8"/>
+    <path d="M330 70 l12 -6 l4 10 l-10 6 z" fill="#f2c9a0"/>
+    <path d="M318 66 l-10 -22 M324 62 l-8 -24 M330 60 l-3 -22" stroke="#f2c9a0" stroke-width="5" stroke-linecap="round"/>
+    <!-- hills -->
+    <path d="M0 420 Q90 380 170 410 T400 400 V520 H0 Z" fill="#3f5b2a"/>
+    <path d="M0 455 Q120 430 230 455 T400 450 V520 H0 Z" fill="#2c4220"/>
+    <!-- city / castle -->
+    <g fill="#e9e2d0" stroke="#8b6b3a" stroke-width="2">
+      <rect x="40" y="350" width="50" height="60"/><rect x="55" y="320" width="22" height="30"/>
+      <path d="M52 320 L66 300 L80 320 Z" fill="#a23b2a"/>
+      <rect x="62" y="380" width="10" height="30" fill="#5a3e1b"/>
+    </g>
+    <!-- horse tail -->
+    <path d="M108 275 C70 285 60 330 55 370 C75 340 95 320 112 300 Z" fill="#cfc7b8"/>
+    <!-- hind legs -->
+    <path d="M125 305 L110 360 L118 412 L132 412 L128 362 L150 318 Z" fill="url(#horse)" stroke="#9b917f" stroke-width="2"/>
+    <path d="M160 315 L168 365 L160 408 L174 410 L184 366 L182 318 Z" fill="url(#horse)" stroke="#9b917f" stroke-width="2"/>
+    <!-- front legs -->
+    <path d="M240 318 L245 370 L240 410 L255 412 L260 370 L262 316 Z" fill="url(#horse)" stroke="#9b917f" stroke-width="2"/>
+    <path d="M262 300 L300 325 L318 360 L330 352 L312 318 L275 290 Z" fill="url(#horse)" stroke="#9b917f" stroke-width="2"/>
+    <!-- hooves -->
+    <g fill="#4a3b2a"><rect x="116" y="408" width="18" height="8" rx="2"/><rect x="158" y="405" width="18" height="8" rx="2"/><rect x="238" y="408" width="18" height="8" rx="2"/><rect x="318" y="352" width="14" height="10" rx="2" transform="rotate(-35 325 357)"/></g>
+    <!-- body -->
+    <ellipse cx="190" cy="285" rx="92" ry="45" fill="url(#horse)" stroke="#9b917f" stroke-width="2"/>
+    <!-- neck & head -->
+    <path d="M245 270 L282 205 L312 200 L298 245 L282 300 Z" fill="url(#horse)" stroke="#9b917f" stroke-width="2"/>
+    <path d="M282 205 L300 186 L318 196 L345 228 L350 246 L334 252 L312 232 L300 228 Z" fill="url(#horse)" stroke="#9b917f" stroke-width="2"/>
+    <path d="M300 188 L304 172 L312 192 Z" fill="#fff" stroke="#9b917f" stroke-width="2"/>
+    <circle cx="318" cy="212" r="3" fill="#222"/>
+    <!-- mane -->
+    <path d="M282 205 C270 225 262 245 248 268 L258 268 C268 248 280 228 292 210 Z" fill="#b9ae99"/>
+    <!-- bridle -->
+    <path d="M300 200 L340 240 M300 226 L312 200" stroke="#8b1d1d" stroke-width="3" fill="none"/>
+    <path d="M338 240 Q290 230 240 232" stroke="#8b1d1d" stroke-width="2.5" fill="none"/>
+    <!-- saddle cloth -->
+    <path d="M160 250 L240 252 L246 300 L170 306 Z" fill="#b91c1c" stroke="#f2c94c" stroke-width="3"/>
+    <path d="M168 300 L246 296" stroke="#f2c94c" stroke-width="2" stroke-dasharray="4 4"/>
+    <!-- cloak flowing -->
+    <path d="M190 180 C140 160 90 175 60 230 C100 215 135 222 165 248 L195 240 Z" fill="#c0262d"/>
+    <path d="M190 180 C150 175 110 190 85 220" stroke="#8a1a1f" stroke-width="3" fill="none"/>
+    <!-- rider leg -->
+    <path d="M192 245 L218 245 L232 300 L226 322 L210 322 L214 300 Z" fill="#7a5230"/>
+    <path d="M208 318 L234 318 L236 328 L206 328 Z" fill="#3b2a1a"/>
+    <!-- torso armour -->
+    <path d="M182 178 L222 178 L230 250 L178 250 Z" fill="#8a1a1f"/>
+    <path d="M186 182 L218 182 L224 236 L184 236 Z" fill="#d4a017"/>
+    <path d="M186 196 H220 M186 210 H222 M185 224 H223" stroke="#9a6f0a" stroke-width="2"/>
+    <path d="M204 182 V236" stroke="#9a6f0a" stroke-width="2"/>
+    <!-- halo -->
+    <circle cx="203" cy="150" r="34" fill="url(#halo)" stroke="#a87a10" stroke-width="3"/>
+    <circle cx="203" cy="150" r="27" fill="none" stroke="#a87a10" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <!-- head -->
+    <path d="M190 168 L216 168 L214 180 L192 180 Z" fill="#e8b98f"/>
+    <ellipse cx="203" cy="152" rx="15" ry="18" fill="#efc8a0"/>
+    <path d="M187 150 C186 128 220 126 219 150 C215 140 205 136 192 142 Z" fill="#5a3518"/>
+    <circle cx="198" cy="152" r="1.8" fill="#2a1a0a"/><circle cx="209" cy="152" r="1.8" fill="#2a1a0a"/>
+    <path d="M200 162 Q203.5 164 207 162" stroke="#8a4a2a" stroke-width="1.5" fill="none"/>
+    <!-- spear -->
+    <line x1="170" y1="150" x2="340" y2="432" stroke="#5b3a1a" stroke-width="6" stroke-linecap="round"/>
+    <path d="M164 140 h12 M170 132 v18" stroke="#d4a017" stroke-width="5" stroke-linecap="round"/>
+    <!-- arm & hand -->
+    <path d="M214 190 L236 214 L226 226 L206 204 Z" fill="#8a1a1f"/>
+    <circle cx="226" cy="226" r="7" fill="#efc8a0"/>
+    <!-- shield -->
+    <ellipse cx="180" cy="215" rx="14" ry="20" fill="#1e3a8a" stroke="#f2c94c" stroke-width="3"/>
+    <path d="M180 200 V230 M170 213 H190" stroke="#f2c94c" stroke-width="3"/>
+    <!-- dragon -->
+    <path d="M395 492 C350 505 300 500 270 482 C240 465 210 480 200 500" stroke="#1f6b3a" stroke-width="22" fill="none" stroke-linecap="round"/>
+    <path d="M395 492 C350 505 300 500 270 482 C240 465 210 480 200 500" stroke="#7bc96f" stroke-width="7" fill="none" stroke-dasharray="6 6"/>
+    <path d="M300 470 L280 425 L305 445 L310 415 L322 452 Z" fill="#14532d"/>
+    <path d="M270 482 C285 470 300 455 318 440" stroke="#1f6b3a" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <path d="M310 430 L352 420 L360 432 L338 436 L362 446 L350 452 L318 452 Z" fill="#1f6b3a" stroke="#0f3d22" stroke-width="2"/>
+    <path d="M338 436 L362 446 L350 452 Z" fill="#b91c1c"/>
+    <circle cx="330" cy="430" r="3" fill="#facc15"/>
+    <path d="M200 500 L185 512 L205 508 Z" fill="#1f6b3a"/>
+  </g>
+  <!-- frame -->
+  <path d="M20 520 V150 A180 140 0 0 1 380 150 V520" fill="none" stroke="#f2c94c" stroke-width="6"/>
+</svg>

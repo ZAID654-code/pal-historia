@@ -67,7 +67,7 @@ function kevin(o) {
     <path class="o" d="M-10,-300 h20 l8,62 l-18,18 l-18,-18Z" fill="#b8323a"/>` : "";
   return `<g transform="translate(${o.x},${o.y}) scale(${(o.flip ? -1 : 1) * (o.s || 1)},${o.s || 1})" ${o.op != null ? `opacity="${o.op}"` : ""}>
     ${stink}
-    <ellipse cx="0" cy="4" rx="150" ry="18" fill="#000" opacity=".22"/>
+    ${o.noShadow ? "" : `<ellipse cx="0" cy="4" rx="150" ry="18" fill="#000" opacity=".22"/>`}
     <rect class="o" x="-80" y="-140" width="66" height="130" rx="14" fill="#6c7482"/>
     <rect class="o" x="14" y="-140" width="66" height="130" rx="14" fill="#6c7482"/>
     <circle cx="-52" cy="-70" r="7" fill="#c9b458"/><circle cx="50" cy="-40" r="6" fill="#8a5a2c"/>

@@ -89,14 +89,14 @@ function sDentist3(t) {
 function sCard(t) {
   const bar = (y, label, n, col, t0, lost) => { const k = eo(prog(t, t0, 0.5)); return `
     <text x="90" y="${y - 20}" font-size="64" fill="${col}">${label}</text>
-    <rect x="90" y="${y}" width="540" height="64" rx="12" fill="#2a2a34"/><rect x="90" y="${y}" width="${540 * n / 8 * k}" height="64" rx="12" fill="${col}"/>
-    <text x="${110 + 540 * n / 8 * k}" y="${y + 50}" font-size="52" fill="#fff">${Math.round(n * k)}</text>${lost || ""}`; };
+    <rect x="90" y="${y}" width="540" height="64" rx="12" fill="#2a2a34"/><rect x="90" y="${y}" width="${540 * n / 100 * k}" height="64" rx="12" fill="${col}"/>
+    <text x="${110 + 540 * n / 100 * k}" y="${y + 50}" font-size="52" fill="#fff">${Math.round(n * k)}%</text>${lost || ""}`; };
   const ghost = pop(t, LS(6));
   return `<rect width="720" height="1280" fill="#14141c"/>
     <text x="360" y="330" text-anchor="middle" font-size="58" fill="#fff">DAY 1 RESULTS</text>
     <text class="ui" x="360" y="372" text-anchor="middle" font-size="22" font-weight="800" fill="#8a8aa0">YOUR COMMENTS, COUNTED</text>
-    ${bar(520, "TEETH", 5, COL.y, LS(3), sticker(560, 480, "WINNER", COL.g, pop(t, LS(4) + 0.3), 8, 34))}
-    ${bar(720, "SHEETS", 3, COL.b, LS(3) + 0.2, sticker(560, 680, "LOST", COL.r, pop(t, LS(5)), -8, 34, "#fff"))}
+    ${bar(520, "TEETH", 63, COL.y, LS(3), sticker(580, 455, "WINNER", COL.g, pop(t, LS(4) + 0.3), 8, 34))}
+    ${bar(720, "SHEETS", 37, COL.b, LS(3) + 0.2, sticker(580, 655, "LOST", COL.r, pop(t, LS(5)), -8, 34, "#fff"))}
     ${ghost <= 0 ? "" : `<g transform="translate(360,960) scale(${ghost}) rotate(${Math.sin(t * 5) * 4})"><path class="o" d="M-90,70 v-90 q0,-80 90,-80 q90,0 90,80 v90 l-30,-24 l-30,24 l-30,-24 l-30,24 l-30,-24Z" fill="#e9e3c8"/>
       <circle cx="-46" cy="-10" r="12" fill="#c9b458"/><ellipse cx="40" cy="36" rx="20" ry="10" fill="#b9a24a"/>
       <path class="o" d="M-52,-56 l34,14 M52,-56 l-34,14" fill="none" stroke-width="7"/><circle cx="-30" cy="-28" r="8" fill="#151515"/><circle cx="30" cy="-28" r="8" fill="#151515"/><path class="o" d="M-22,10 q22,-16 44,0" fill="none"/></g>`}`;
@@ -187,7 +187,7 @@ function sBed(t) {
     <ellipse cx="300" cy="940" rx="46" ry="16" fill="#b9a24a"/><ellipse cx="520" cy="952" rx="60" ry="14" fill="#a8913f"/><circle cx="420" cy="925" r="12" fill="#8a5a2c"/>
     <rect class="o" x="84" y="860" width="150" height="56" rx="24" fill="#efe9d2"/>
     ${angry <= 0 ? "" : `<g transform="translate(560,935) scale(${angry})"><path class="o" d="M-40,-22 l30,12 M40,-22 l-30,12" fill="none" stroke-width="7"/><circle cx="-22" cy="2" r="8" fill="#151515"/><circle cx="22" cy="2" r="8" fill="#151515"/></g>`}
-    <g transform="translate(${kx},${ky}) rotate(${-90 * lie}) translate(${-kx},${-ky})">${kevin({ x: kx, y: ky, s: 1.05, t, expr: lie > 0.9 && t > LS(33) ? "shock" : "grin", teeth: WHITE, stink: false, noFlies: lie > 0.5 })}</g>${st}`;
+    <g transform="translate(${kx},${ky}) rotate(${-90 * lie}) translate(${-kx},${-ky})">${kevin({ x: kx, y: ky, s: 1.05, t, expr: lie > 0.9 && t > LS(33) ? "shock" : "grin", teeth: WHITE, stink: false, noFlies: lie > 0.5, noShadow: lie > 0.1, aL: 12 + 70 * lie, aR: 12 + 70 * lie })}</g>${st}`;
 }
 
 function sVote(t) {
@@ -214,7 +214,9 @@ window.SUBTXT = "Bridesmaid · the wedding";
 
 window.renderAt = function (t) {
   const sc = TL.scenes.find(s => t >= s.start && t < s.end) || TL.scenes[TL.scenes.length - 1];
-  const k = 1.05 - 0.05 * eo(prog(t, sc.start, 0.2));
+  // punch-in on each peak
+  const punch = Math.max(0, ...[CS(0, 2), LS(2), CS(15, 1), CS(17, 2), LS(23), LS(26), LS(30), LS(33)].map(p => t >= p ? 0.08 * (1 - eo(prog(t, p, 0.4))) : 0));
+  const k = 1.05 - 0.05 * eo(prog(t, sc.start, 0.2)) + punch;
   const pct = 4 * eo(prog(t, LS(26), 0.6));
   document.getElementById("s").innerHTML =
     `<g transform="translate(360,640) scale(${k}) translate(-360,-640)">${SC[sc.name](t)}</g>` +

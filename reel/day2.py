@@ -1,4 +1,4 @@
-"""Day 2: TEETH won the vote (5 to 3). Modern arc: hook at 70, peak, release, peak..."""
+"""Day 2: TEETH won the vote (5 to 3 = 63% to 37%). Modern arc: hook at 70, peak, release, peak..."""
 TOTAL = None  # auto: speech + pauses
 
 S = [
@@ -8,7 +8,7 @@ S = [
     # peak 1
     ("card", "[y:YOU] DID THIS", 0.7, "."),
     ("card", "YOU VOTED | [y:TEETH]", 0, "."),
-    ("card", "FIVE TO THREE", 0.9, "."),
+    ("card", "[y:SIXTY THREE] | PERCENT", 0.9, "."),
     ("card", "THE [b:SHEETS] LOST", 0, "."),
     ("card", "THE SHEETS | WILL REMEMBER", 1.8, "."),
     # release

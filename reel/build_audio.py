@@ -80,13 +80,26 @@ def plain(t):
     return re.sub(r"\[\w:([^\]]+)\]", r"\1", t).replace("|", " ")
 
 
+VOICE, SPEED = "am_michael", 1.0
+QUESTIONS = {13, 52, 53}
+_k = None
+
+
 def tts(i, text):
+    """Kokoro neural voice (model files in build/kokoro, from huggingface.co/fastrtc/kokoro-onnx)."""
+    global _k
+    import soundfile as sf
+    from kokoro_onnx import Kokoro
+    if _k is None:
+        d = os.path.join(OUT, "kokoro")
+        _k = Kokoro(os.path.join(d, "kokoro-v1.0.onnx"), os.path.join(d, "voices-v1.0.bin"))
     raw = os.path.join(OUT, f"s{i:02d}_raw.wav")
     cut = os.path.join(OUT, f"s{i:02d}.wav")
-    say = text.lower().capitalize() + "."
-    subprocess.run(["pico2wave", "-l", "en-GB", "-w", raw,
-                    f'<pitch level="78"><speed level="108">{say}</speed></pitch>'], check=True)
-    subprocess.run(["sox", raw, "-r", str(SR), "-c", "1", cut,
+    say = text.lower().capitalize().replace("kevin", "Kevin").replace("emily", "Emily")
+    say += "?" if i in QUESTIONS else "."
+    a, sr = _k.create(say, voice=VOICE, speed=SPEED, lang="en-us")
+    sf.write(raw, a, sr)
+    subprocess.run(["sox", raw, "-r", str(SR), "-c", "1", "-b", "16", cut,
                     "silence", "1", "0.01", "0.4%", "reverse",
                     "silence", "1", "0.01", "0.4%", "reverse"], check=True)
     with wave.open(cut) as w:

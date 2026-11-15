@@ -13,66 +13,67 @@ os.makedirs(OUT, exist_ok=True)
 SR = 44100
 TOTAL = 97.87  # same length as the reference reel
 
-# (scene, text, pause after in "units", optional say-override)
+# (scene, caption text, pause units after, joiner)
+# pause 0 = keeps flowing into the next line inside the same spoken sentence.
 S = [
-    ("room", "[y:THIRTY DAYS]", 1.2),
-    ("room", "KEVIN HAS UNTIL | HIS BEST FRIEND'S | [y:WEDDING]", 1.5),
-    ("room", "LOOK AT HIM", 1),
-    ("room", "[g:GOBLIN] MODE", 1),
-    ("room", "CONTROLLER | IN HAND", 0.8),
-    ("room", "[o:PIZZA GREASE] | TO THE WRIST", 1),
-    ("room", "HIS PLANTS | [g:DIED] | FROM THE SMELL", 2),
-    ("phone1", "THEN [p:EMILY] TEXTS | HIM", 1),
-    ("phone1", "NOT AN [p:EMILY]", 0.8),
-    ("phone1", "THE [p:EMILY]", 0.8),
-    ("phone1", "[p:BRIDESMAID EMILY]", 1.2),
-    ("phone1", "AND THIS MAN | LEAVES A | [o:GREASY THUMBPRINT] | ON THE SCREEN", 2),
-    ("room2", "[y:THIRTY DAYS] TO | FIX [y:EVERYTHING]", 1),
-    ("room2", "WHERE DO WE | START", 2),
-    ("mirror", "FIRST STOP", 0.8),
-    ("mirror", "THE [b:MIRROR]", 1.2),
-    ("mirror", "THE [b:TEETH]", 0.9),
-    ("mirror", "THE [b:SKIN]", 0.9),
-    ("mirror", "THE [b:BEARD] | GROWING IN | THREE DIRECTIONS", 1.2),
-    ("mirror", "THE MIRROR | [b:CRACKS]", 0.8),
-    ("mirror", "OUT OF | [r:SELF DEFENCE]", 2),
-    ("closet", "NEXT", 0.8),
-    ("closet", "THE CLOSET", 1),
-    ("closet", "ONE [g:SUIT]", 0.8),
-    ("closet", "FROM | TWENTY FOURTEEN", 1.2, "from twenty fourteen"),
-    ("closet", "THE BUTTON | TAKES ONE LOOK | AT HIS BELLY", 0.7),
-    ("closet", "AND [r:RESIGNS]", 2),
-    ("street", "SO HE GOES | OUTSIDE", 1),
-    ("street", "THE SUN | SEES HIM", 0.6),
-    ("street", "AND HIDES | BEHIND A CLOUD", 1.2),
-    ("street", "A PIGEON | LANDS ON HIM", 0.8),
-    ("street", "THINKS HE'S | A STATUE", 0.8),
-    ("street", "AND LEAVES | A REVIEW", 0.8),
-    ("street", "[r:ONE STAR]", 2),
-    ("barber", "AT THE | BARBER SHOP", 0.6),
-    ("barber", "KEVIN ASKS FOR | A [b:FRESH FADE]", 1.2),
-    ("barber", "THE BARBER | LOOKS AT | THE HAIR", 0.8),
-    ("barber", "LOOKS AT | THE SCISSORS", 0.8),
-    ("barber", "AND CALLS FOR | [y:BACKUP]", 2),
-    ("window", "ON THE WAY HOME | HE SEES HIMSELF IN | A [b:SHOP WINDOW]", 1.2),
-    ("window", "FIRST TIME | HE DOESN'T LOOK | AWAY", 1),
-    ("window", "THE [b:REFLECTION] DOES", 2),
-    ("phone2", "BACK HOME", 0.8),
-    ("phone2", "HE REPLIES TO | [p:EMILY]", 1),
-    ("phone2", "TYPES A | PARAGRAPH", 0.8),
-    ("phone2", "DELETES IT", 0.8),
-    ("phone2", "TYPES AGAIN", 0.8),
-    ("phone2", "AND SENDS", 1.4),
-    ("phone2", "A [b:THUMBS UP]", 1.6),
-    ("phone2", "[y:THIRTY DAYS]", 0.8),
-    ("phone2", "STRONG | [r:OPENING MOVE]", 2),
-    ("vote", "SO HERE'S WHERE | YOU COME IN", 1),
-    ("vote", "DOES HE HIT | THE [y:GYM]", 0.8),
-    ("vote", "OR BOOK A | [b:HAIRCUT]", 1.2),
-    ("vote", "ONE OF THEM | CHANGES HIS LIFE", 1.2),
-    ("vote", "[y:COMMENT] | ONE WORD", 0.8),
-    ("vote", "[y:VOTE] NOW", 1),
-    ("vote", "DAY TWO STARTS | WITH YOUR [y:CHOICE]", 0),
+    ("room", "[y:THIRTY DAYS]", 0, "."),
+    ("room", "THAT'S HOW LONG | KEVIN HAS UNTIL | HIS BEST FRIEND'S | [y:WEDDING]", 1.3, "."),
+    ("room", "LOOK AT HIM", 0, "."),
+    ("room", "KEVIN IS IN | FULL [g:GOBLIN] MODE", 0.9, "."),
+    ("room", "CONTROLLER | IN HAND", 0, "."),
+    ("room", "[o:PIZZA GREASE] | UP TO THE WRIST", 0.9, "."),
+    ("room", "EVEN HIS PLANTS | [g:DIED] | FROM THE SMELL", 2, "."),
+    ("phone1", "THEN [p:EMILY] | TEXTS HIM", 0.9, "."),
+    ("phone1", "NOT AN [p:EMILY]", 0, "."),
+    ("phone1", "THE [p:EMILY]", 0, "."),
+    ("phone1", "[p:BRIDESMAID EMILY]", 1, "."),
+    ("phone1", "AND THIS MAN | READS IT WITH A | [o:GREASY THUMBPRINT] | ON THE SCREEN", 2, "."),
+    ("room2", "[y:THIRTY DAYS] TO | FIX [y:EVERYTHING]", 0.8, "."),
+    ("room2", "WHERE DO WE | EVEN START", 2, "?"),
+    ("mirror", "FIRST STOP", 0, "."),
+    ("mirror", "THE BATHROOM | [b:MIRROR]", 1, "."),
+    ("mirror", "THE [b:TEETH]", 0.7, "."),
+    ("mirror", "THE [b:SKIN]", 0.7, "."),
+    ("mirror", "THE [b:BEARD] | GROWING IN | THREE DIRECTIONS", 1, "."),
+    ("mirror", "EVEN THE MIRROR | [b:CRACKS]", 0, ","),
+    ("mirror", "OUT OF | [r:SELF DEFENCE]", 2, "."),
+    ("closet", "NEXT", 0, ","),
+    ("closet", "THE CLOSET", 0.9, "."),
+    ("closet", "ONE [g:SUIT]", 0, ","),
+    ("closet", "FROM | TWENTY FOURTEEN", 1, "."),
+    ("closet", "THE BUTTON | TAKES ONE LOOK | AT HIS BELLY", 0, ","),
+    ("closet", "AND [r:RESIGNS]", 2, "."),
+    ("street", "SO HE GOES | OUTSIDE", 0.9, "."),
+    ("street", "THE SUN | SEES HIM", 0, ","),
+    ("street", "AND HIDES | BEHIND A CLOUD", 1, "."),
+    ("street", "A PIGEON | LANDS ON HIM", 0, ","),
+    ("street", "THINKS HE'S | A STATUE", 0, ","),
+    ("street", "AND LEAVES | A REVIEW", 0.8, "."),
+    ("street", "[r:ONE STAR]", 2, "."),
+    ("barber", "AT THE | BARBER SHOP", 0, ","),
+    ("barber", "KEVIN ASKS FOR | A [b:FRESH FADE]", 1, "."),
+    ("barber", "THE BARBER | LOOKS AT | THE HAIR", 0.7, "."),
+    ("barber", "LOOKS AT | THE SCISSORS", 0.7, "."),
+    ("barber", "AND CALLS FOR | [y:BACKUP]", 2, "."),
+    ("window", "ON THE WAY HOME | HE SEES HIMSELF IN | A [b:SHOP WINDOW]", 1, "."),
+    ("window", "AND FOR THE | FIRST TIME | HE DOESN'T | LOOK AWAY", 0.9, "."),
+    ("window", "THE [b:REFLECTION] DOES", 2, "."),
+    ("phone2", "BACK HOME", 0, ","),
+    ("phone2", "KEVIN TYPES | A REPLY TO | [p:EMILY]", 0.7, "."),
+    ("phone2", "A WHOLE | PARAGRAPH", 0.7, "."),
+    ("phone2", "DELETES IT", 0.6, "."),
+    ("phone2", "TYPES AGAIN", 0.6, "."),
+    ("phone2", "AND SENDS", 1.3, "..."),
+    ("phone2", "A [b:THUMBS UP]", 1.6, "."),
+    ("phone2", "[y:THIRTY DAYS]", 0, ","),
+    ("phone2", "AND THAT'S HIS | [r:OPENING MOVE]", 2, "."),
+    ("vote", "SO HERE'S WHERE | YOU COME IN", 0.9, "."),
+    ("vote", "DOES HE HIT | THE [y:GYM]", 0, ","),
+    ("vote", "OR BOOK A | [b:HAIRCUT]", 1, "?"),
+    ("vote", "ONE OF THEM | CHANGES HIS LIFE", 1, "."),
+    ("vote", "[y:COMMENT] | ONE WORD", 0, "."),
+    ("vote", "[y:VOTE] NOW", 0.9, "."),
+    ("vote", "DAY TWO STARTS | WITH YOUR [y:CHOICE]", 0, "."),
 ]
 
 
@@ -80,31 +81,54 @@ def plain(t):
     return re.sub(r"\[\w:([^\]]+)\]", r"\1", t).replace("|", " ")
 
 
-VOICE, SPEED = "am_michael", 1.0
-QUESTIONS = {13, 52, 53}
-_k = None
+VOICE, SPEED = os.environ.get("VOICE", "am_michael"), float(os.environ.get("SPEED", "1.1"))
+_k = _w = None
+norm = lambda w: re.sub(r"[^a-z0-9]", "", w.lower())
 
 
-def tts(i, text):
-    """Kokoro neural voice (model files in build/kokoro, from huggingface.co/fastrtc/kokoro-onnx)."""
-    global _k
+def tts(i, say):
+    """Kokoro neural voice; returns (samples, [(word, start, end)]) with Whisper word timings."""
+    global _k, _w
+    import difflib
     import soundfile as sf
     from kokoro_onnx import Kokoro
+    from faster_whisper import WhisperModel
     if _k is None:
         d = os.path.join(OUT, "kokoro")
         _k = Kokoro(os.path.join(d, "kokoro-v1.0.onnx"), os.path.join(d, "voices-v1.0.bin"))
-    raw = os.path.join(OUT, f"s{i:02d}_raw.wav")
-    cut = os.path.join(OUT, f"s{i:02d}.wav")
-    say = text.lower().capitalize().replace("kevin", "Kevin").replace("emily", "Emily")
-    say += "?" if i in QUESTIONS else "."
+        _w = WhisperModel(os.path.join(OUT, "whisper"), device="cpu", compute_type="int8")
+    raw = os.path.join(OUT, f"u{i:02d}_raw.wav")
+    cut = os.path.join(OUT, f"u{i:02d}.wav")
     a, sr = _k.create(say, voice=VOICE, speed=SPEED, lang="en-us")
     sf.write(raw, a, sr)
     subprocess.run(["sox", raw, "-r", str(SR), "-c", "1", "-b", "16", cut,
                     "silence", "1", "0.01", "0.4%", "reverse",
                     "silence", "1", "0.01", "0.4%", "reverse"], check=True)
+    subprocess.run(["sox", cut, "-r", "16000", cut + ".16k.wav"], check=True)
     with wave.open(cut) as w:
         a = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).astype(np.float32) / 32768
-    return a
+    with wave.open(cut + ".16k.wav") as w:
+        a16 = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).astype(np.float32) / 32768
+    segs, _ = _w.transcribe(a16, word_timestamps=True, initial_prompt=say)
+    heard = [(norm(x.word), x.start, x.end) for sg in segs for x in sg.words if norm(x.word)]
+    words = [norm(x) for x in say.split() if norm(x)]
+    d = len(a) / SR
+    times = [None] * len(words)
+    sm = difflib.SequenceMatcher(None, words, [h[0] for h in heard], autojunk=False)
+    for bl in sm.get_matching_blocks():
+        for k in range(bl.size):
+            times[bl.a + k] = heard[bl.b + k][1:]
+    miss = sum(x is None for x in times)
+    for k in range(len(words)):  # interpolate anything Whisper heard differently
+        if times[k] is None:
+            lo = next((times[j][1] for j in range(k - 1, -1, -1) if times[j]), 0.0)
+            hi = next((times[j][0] for j in range(k + 1, len(words)) if times[j]), d)
+            n = 1 + next((j - k for j in range(k + 1, len(words)) if times[j]), len(words) - k)
+            times[k] = (lo + (hi - lo) / n * 0, lo + (hi - lo) / n)
+    if miss:
+        print(f"  utterance {i}: {miss} word(s) interpolated: {say}")
+    times[0] = (0.0, times[0][1])
+    return a, [(min(s, d), min(e, d)) for s, e in times]
 
 
 def env(n, a=0.005, r=0.1):
@@ -201,30 +225,48 @@ def music(n):
 
 
 def main():
-    clips = [tts(i, s[3] if len(s) > 3 else plain(s[1])) for i, s in enumerate(S)]
-    speech = sum(len(c) for c in clips) / SR
+    # group lines into spoken utterances (full sentences)
+    utts, cur = [], []
+    for i, l in enumerate(S):
+        cur.append(i)
+        if l[2] > 0 or i == len(S) - 1:
+            utts.append(cur)
+            cur = []
+    sent = lambda t: t[0].upper() + t[1:]
+    fix = lambda t: t.lower().replace("kevin", "Kevin").replace("emily", "Emily")
+    built = []
+    for u, ids in enumerate(utts):
+        say, cap = "", True
+        for i in ids:
+            t = fix(plain(S[i][1])).strip()
+            t = re.sub(r"\s+", " ", t)
+            say += (sent(t) if cap else t) + S[i][3] + " "
+            cap = S[i][3] in (".", "?", "...")
+        built.append(tts(u, say.strip()))
+    speech = sum(len(c) for c, _ in built) / SR
     units = sum(s[2] for s in S)
-    lead, tail = 0.35, 1.6
+    lead, tail = 0.3, 1.4
     unit = (TOTAL - lead - tail - speech) / units
     print(f"speech {speech:.1f}s, pause unit {unit:.3f}s")
-    if unit < 0.12:
+    if unit < 0.15:
         sys.exit("script too long for target duration")
 
     n = int(TOTAL * SR)
     voice = np.zeros(n)
     lines, t = [], lead
-    for i, (s, c) in enumerate(zip(S, clips)):
-        d = len(c) / SR
+    for ids, (c, wt) in zip(utts, built):
         o = int(t * SR)
         voice[o:o + len(c)] += c[:n - o]
-        chunks = [x.strip() for x in s[1].split("|")]
-        w = [len(plain(x)) + 2 for x in chunks]
-        acc, cs = 0, []
-        for x, wi in zip(chunks, w):
-            cs.append({"text": x, "start": round(t + d * acc / sum(w), 3)})
-            acc += wi
-        lines.append({"i": i, "scene": s[0], "start": round(t, 3), "end": round(t + d, 3), "chunks": cs})
-        t += d + s[2] * unit
+        k = 0
+        for i in ids:
+            cs = []
+            for x in [x.strip() for x in S[i][1].split("|")]:
+                nw = len([w for w in plain(x).split() if norm(w)])
+                cs.append({"text": x, "start": round(t + wt[k][0], 3)})
+                k += nw
+            lines.append({"i": i, "scene": S[i][0], "start": cs[0]["start"],
+                          "end": round(t + wt[k - 1][1], 3), "chunks": cs})
+        t += len(c) / SR + S[ids[-1]][2] * unit
 
     scenes = []
     for l in lines:
@@ -253,13 +295,34 @@ def main():
         if 0 <= o < n:
             fx[o:o + len(s)] += s[:n - o] * g
 
-    v = voice / (np.abs(voice).max() + 1e-9) * 0.9
-    m = music(n) * 0.085
+    def wav(path, x):
+        with wave.open(path, "wb") as w:
+            w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
+            w.writeframes((np.clip(x, -1, 1) * 32767).astype(np.int16).tobytes())
+
+    def rd(path):
+        with wave.open(path) as w:
+            return np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).astype(np.float32) / 32768
+
+    vr, vp = os.path.join(OUT, "voice_raw.wav"), os.path.join(OUT, "voice.wav")
+    wav(vr, voice / (np.abs(voice).max() + 1e-9) * 0.8)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", vr, "-af",
+                    "highpass=f=75,equalizer=f=250:t=q:w=1:g=-2,equalizer=f=3400:t=q:w=1.2:g=3.5,"
+                    "acompressor=threshold=-22dB:ratio=3.5:attack=4:release=90:makeup=5,alimiter=limit=0.9",
+                    "-ar", str(SR), vp], check=True)
+    v = rd(vp)[:n]
+    v = np.pad(v, (0, n - len(v)))
+    # duck the music whenever the voice is speaking
+    win = int(0.05 * SR)
+    lvl = np.convolve(np.abs(v), np.ones(win) / win, "same")
+    duck = 1 - 0.6 * np.clip(lvl / 0.05, 0, 1)
+    duck = np.convolve(duck, np.ones(int(0.15 * SR)) / int(0.15 * SR), "same")
+    m = music(n) * 0.075 * duck
     m[-int(1.5 * SR):] *= np.linspace(1, 0, int(1.5 * SR))
-    mix = np.clip(v + m + fx * 0.5, -1, 1)
-    with wave.open(os.path.join(OUT, "audio.wav"), "wb") as w:
-        w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
-        w.writeframes((mix * 32767).astype(np.int16).tobytes())
+    pre = os.path.join(OUT, "premix.wav")
+    wav(pre, v * 0.85 + m + fx * 0.4)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", pre, "-af", "loudnorm=I=-14:TP=-1:LRA=9",
+                    "-ar", str(SR), os.path.join(OUT, "audio.wav")], check=True)
     json.dump({"total": TOTAL, "lines": lines, "scenes": scenes},
               open(os.path.join(OUT, "timeline.json"), "w"), indent=1)
     for sc in scenes:

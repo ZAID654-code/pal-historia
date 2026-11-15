@@ -77,6 +77,15 @@ S = [
 ]
 
 
+EP = os.environ.get("EP", "day1")
+EPDIR = OUT if EP == "day1" else os.path.join(OUT, EP)
+os.makedirs(EPDIR, exist_ok=True)
+if EP != "day1":  # other episodes live in dayN.py: S, TOTAL (None = auto), events(L)
+    import importlib
+    _m = importlib.import_module(EP)
+    S, TOTAL = _m.S, _m.TOTAL
+
+
 def plain(t):
     return re.sub(r"\[\w:([^\]]+)\]", r"\1", t).replace("|", " ")
 
@@ -225,6 +234,7 @@ def music(n):
 
 
 def main():
+    global TOTAL
     # group lines into spoken utterances (full sentences)
     utts, cur = [], []
     for i, l in enumerate(S):
@@ -233,7 +243,7 @@ def main():
             utts.append(cur)
             cur = []
     sent = lambda t: t[0].upper() + t[1:]
-    fix = lambda t: t.lower().replace("kevin", "Kevin").replace("emily", "Emily")
+    fix = lambda t: t.lower().replace("kevin", "Kevin").replace("emily", "Emily").replace("x-ray", "X-ray")
     built = []
     for u, ids in enumerate(utts):
         say, cap = "", True
@@ -246,6 +256,8 @@ def main():
     speech = sum(len(c) for c, _ in built) / SR
     units = sum(s[2] for s in S)
     lead, tail = 0.3, 1.4
+    if TOTAL is None:
+        TOTAL = round(lead + tail + speech + units * 0.5, 2)
     unit = (TOTAL - lead - tail - speech) / units
     print(f"speech {speech:.1f}s, pause unit {unit:.3f}s")
     if unit < 0.15:
@@ -278,16 +290,19 @@ def main():
 
     L = {i: l for i, l in enumerate(lines)}
     ev = [(sc["start"], "pop", 0.5) for sc in scenes[1:]]
-    ev += [(L[7]["start"] + 0.5, "ding", 0.5), (L[11]["chunks"][2]["start"], "splat", 0.6),
-           (L[19]["chunks"][1]["start"], "crack", 0.8), (L[26]["start"] + 0.15, "boing", 0.6),
-           (L[29]["start"], "sad", 0.35), (L[33]["start"], "splat", 0.6),
-           (L[38]["chunks"][1]["start"], "ding", 0.4), (L[41]["start"] + 0.5, "boing", 0.4),
-           (L[48]["start"] - 0.25, "send", 0.6), (L[48]["end"] + 0.55, "ding", 0.5),
-           (L[52]["start"], "pop", 0.5), (L[53]["start"], "pop", 0.5), (L[56]["start"], "chime", 0.5)]
-    for k in range(14):  # typing ticks
-        ev.append((L[44]["start"] + k * 0.07, "tick", 0.35))
-    for k in range(6):
-        ev.append((L[46]["start"] + k * 0.09, "tick", 0.35))
+    if EP != "day1":
+        ev += _m.events(L)
+    else:
+        ev += [(L[7]["start"] + 0.5, "ding", 0.5), (L[11]["chunks"][2]["start"], "splat", 0.6),
+               (L[19]["chunks"][1]["start"], "crack", 0.8), (L[26]["start"] + 0.15, "boing", 0.6),
+               (L[29]["start"], "sad", 0.35), (L[33]["start"], "splat", 0.6),
+               (L[38]["chunks"][1]["start"], "ding", 0.4), (L[41]["start"] + 0.5, "boing", 0.4),
+               (L[48]["start"] - 0.25, "send", 0.6), (L[48]["end"] + 0.55, "ding", 0.5),
+               (L[52]["start"], "pop", 0.5), (L[53]["start"], "pop", 0.5), (L[56]["start"], "chime", 0.5)]
+        for k in range(14):  # typing ticks
+            ev.append((L[44]["start"] + k * 0.07, "tick", 0.35))
+        for k in range(6):
+            ev.append((L[46]["start"] + k * 0.09, "tick", 0.35))
     fx = np.zeros(n)
     for when, name, g in ev:
         s = sfx(name)
@@ -322,9 +337,9 @@ def main():
     pre = os.path.join(OUT, "premix.wav")
     wav(pre, v * 0.85 + m + fx * 0.4)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", pre, "-af", "loudnorm=I=-14:TP=-1:LRA=9",
-                    "-ar", str(SR), os.path.join(OUT, "audio.wav")], check=True)
+                    "-ar", str(SR), os.path.join(EPDIR, "audio.wav")], check=True)
     json.dump({"total": TOTAL, "lines": lines, "scenes": scenes},
-              open(os.path.join(OUT, "timeline.json"), "w"), indent=1)
+              open(os.path.join(EPDIR, "timeline.json"), "w"), indent=1)
     for sc in scenes:
         print(f'{sc["name"]:8s} {sc["start"]:6.2f} - {sc["end"]:6.2f}')
 

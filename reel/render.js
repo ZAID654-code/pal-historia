@@ -6,15 +6,16 @@ const { spawn, execFileSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-const dir = __dirname, FPS = 30;
-const tl = JSON.parse(fs.readFileSync(path.join(dir, "build/timeline.json")));
-fs.writeFileSync(path.join(dir, "build/timeline.js"), "window.TL=" + JSON.stringify(tl) + ";");
+const dir = __dirname, FPS = 30, EP = process.env.EP || "day1";
+const B = EP === "day1" ? "build" : "build/" + EP, HTML = EP === "day1" ? "index.html" : EP + ".html";
+const tl = JSON.parse(fs.readFileSync(path.join(dir, B + "/timeline.json")));
+fs.writeFileSync(path.join(dir, B + "/timeline.js"), "window.TL=" + JSON.stringify(tl) + ";");
 fs.mkdirSync(path.join(dir, "out"), { recursive: true });
 
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: 720, height: 1280 }, deviceScaleFactor: 1 });
-  await page.goto("file://" + path.join(dir, "index.html"));
+  await page.goto("file://" + path.join(dir, HTML));
   await page.evaluate(() => document.fonts.load("40px Anton").then(() => document.fonts.load("800 20px Inter")).then(() => document.fonts.ready));
 
   if (process.argv[2] === "sheet") {
@@ -31,9 +32,9 @@ fs.mkdirSync(path.join(dir, "out"), { recursive: true });
   }
 
   const n = Math.round(tl.total * FPS);
-  const out = path.join(dir, "out/reel.mp4");
+  const out = path.join(dir, EP === "day1" ? "out/reel.mp4" : "out/" + EP + ".mp4");
   const ff = spawn("ffmpeg", ["-v", "error", "-y", "-f", "image2pipe", "-framerate", String(FPS), "-c:v", "mjpeg", "-i", "-",
-    "-i", path.join(dir, "build/audio.wav"), "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p",
+    "-i", path.join(dir, B + "/audio.wav"), "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p",
     "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart", out], { stdio: ["pipe", "inherit", "inherit"] });
   for (let i = 0; i < n; i++) {
     await page.evaluate(t => window.renderAt(t), i / FPS);

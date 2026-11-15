@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Day 2: Teeth</title>
+<style>
+@font-face { font-family: Anton; src: url(fonts/Anton.woff2) format("woff2"); }
+@font-face { font-family: Inter; src: url(fonts/Inter.woff2) format("woff2"); font-weight: 100 900; }
+html, body { margin: 0; background: #000; }
+svg { display: block; width: 720px; height: 1280px; }
+text { font-family: Anton, Impact, sans-serif; }
+.ui { font-family: Inter, Arial, sans-serif; }
+.o { stroke: #151515; stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; }
+</style>
+</head>
+<body>
+<svg id="s" viewBox="0 0 720 1280" xmlns="http://www.w3.org/2000/svg"></svg>
+<script src="build/day2/timeline.js"></script>
+<script src="lib.js"></script>
+<script>
+window.SUBT = 0;
+const WHITE = "#ffffff";
+
+/* ---------- dentist ---------- */
+function dentist(t, o = {}) {
+  const masks = o.masks || 1, lean = o.lean || 0;
+  const mask = (dy, col) => `<path class="o" d="M-50,${-446 + dy} q50,-14 100,0 v34 q-50,26 -100,0Z" fill="${col}"/><path d="M-50,${-440 + dy} l-14,-10 M50,${-440 + dy} l14,-10" stroke="#151515" stroke-width="4"/>`;
+  return `<g transform="translate(${o.x ?? 190},1085) scale(1.1) rotate(${lean},0,0)">
+    <ellipse cx="0" cy="4" rx="100" ry="14" fill="#000" opacity=".2"/>
+    <rect class="o" x="-50" y="-190" width="42" height="184" rx="10" fill="#3aa79a"/><rect class="o" x="8" y="-190" width="42" height="184" rx="10" fill="#3aa79a"/>
+    <ellipse class="o" cx="-30" cy="-6" rx="34" ry="13" fill="#fff"/><ellipse class="o" cx="30" cy="-6" rx="34" ry="13" fill="#fff"/>
+    <path class="o" d="M-70,-390 q-14,120 -4,210 h148 q10,-90 -4,-210 q-70,-20 -140,0Z" fill="#4fc4b5"/>
+    <g transform="translate(-74,-374) rotate(${o.armL ?? 8})"><rect class="o" x="-18" y="0" width="36" height="150" rx="18" fill="#4fc4b5"/><circle class="o" cx="0" cy="156" r="19" fill="#b7e3ff"/></g>
+    <g transform="translate(74,-374) rotate(${-(o.armR ?? 10)})"><rect class="o" x="-18" y="0" width="36" height="150" rx="18" fill="#4fc4b5"/><circle class="o" cx="0" cy="156" r="19" fill="#b7e3ff"/>${o.held || ""}</g>
+    <circle class="o" cx="0" cy="-455" r="64" fill="#c98d63"/>
+    <path class="o" d="M-64,-470 q0,-70 64,-70 q64,0 64,70 q-64,-22 -128,0Z" fill="#4fc4b5"/>
+    <circle class="o" cx="-22" cy="-462" r="${o.scared ? 17 : 13}" fill="#fff"/><circle class="o" cx="26" cy="-462" r="${o.scared ? 17 : 13}" fill="#fff"/>
+    <circle cx="${-22 + (o.lookx ?? 1) * 5}" cy="-460" r="5" fill="#151515"/><circle cx="${26 + (o.lookx ?? 1) * 5}" cy="-460" r="5" fill="#151515"/>
+    ${mask(0, "#9fd8f2")}
+    ${masks > 1 ? `<g transform="translate(0,-420) scale(${o.m2 ?? 1}) translate(0,420)">${mask(-6, "#fff")}<path class="o" d="M-56,-486 h112 v30 h-112Z" fill="#cfe9ff" opacity=".8"/></g>` : ""}
+    ${o.scared ? `<path d="M70,-500 q10,14 0,26 q-10,-12 0,-26Z" fill="#5cc8ff" stroke="#151515" stroke-width="3"/>` : ""}
+  </g>`;
+}
+
+function clinic(t, lampOn = true) {
+  return `<rect width="720" height="1280" fill="#d7ecf5"/><rect y="1040" width="720" height="240" fill="#b9c9d2"/>
+    <path d="M0,1040 h720" stroke="#151515" stroke-width="5"/>
+    <rect class="o" x="40" y="270" width="150" height="190" fill="#fff"/><path class="o" d="M90,320 q25,-20 50,0 q8,50 -8,90 q-8,-30 -17,-30 q-9,0 -17,30 q-16,-40 -8,-90Z" fill="#fff"/>
+    <rect class="o" x="560" y="250" width="110" height="60" rx="8" fill="#e2574c"/><text x="615" y="294" text-anchor="middle" font-size="34" fill="#fff">OPEN</text>
+    <path class="o" d="M470,250 v130 l-70,60" fill="none" stroke-width="12" stroke="#8a97a3"/>
+    <g transform="translate(400,440) rotate(35)"><ellipse class="o" rx="62" ry="26" fill="#c9d3da"/><ellipse cy="8" rx="46" ry="14" fill="${lampOn ? "#fff7b0" : "#55606a"}"/></g>
+    ${lampOn ? `<path d="M360,460 L300,900 L620,900 L440,470Z" fill="#fff7b0" opacity=".28"/>` : ""}
+    <path class="o" d="M330,640 q-10,-90 60,-100 h160 q70,10 60,100 v340 h-280Z" fill="#6fb7c9"/>
+    <rect class="o" x="300" y="960" width="340" height="50" rx="16" fill="#5a9bad"/><rect class="o" x="440" y="1010" width="60" height="70" fill="#8a97a3"/>`;
+}
+
+function sDentist1(t) {
+  const m2 = pop(t, CS(0, 2));
+  return clinic(t) + dentist(t, { masks: m2 > 0 ? 2 : 1, m2, scared: t > CS(0, 2), armR: t > CS(0, 2) ? 150 : 10 })
+    + kevin({ x: 470, y: 1085, s: 1.1, t, expr: t > LS(1) ? "smug" : "neutral", look: -1 });
+}
+
+function sDentist2(t) {
+  const off = t >= CS(15, 1);
+  const lean = t > LS(14) ? 14 * eo(prog(t, LS(14), 0.3)) : 0;
+  const body = clinic(t, !off) + dentist(t, { masks: 2, lean, x: 200, lookx: 1.4, scared: off })
+    + kevin({ x: 470, y: 1085, s: 1.1, t, expr: "teeth", tilt: -6 });
+  if (!off) return body;
+  const k = prog(t, CS(15, 1), 0.08), blink = Math.floor(t * 1.3) % 4 === 0;
+  const eyes = (x, y, r) => blink ? `<path d="M${x - 30},${y} h20 M${x + 10},${y} h20" stroke="#fff" stroke-width="5"/>` :
+    `<circle cx="${x - 20}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x + 20}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x - 18}" cy="${y}" r="4" fill="#111"/><circle cx="${x + 22}" cy="${y}" r="4" fill="#111"/>`;
+  return `${body}<rect width="720" height="1280" fill="#05070c" opacity="${0.93 * k}"/>${eyes(250, 590, 14)}${eyes(470, 650, 20)}
+    <path d="M440,712 h60 v12 h-60Z" fill="#e2c94b" opacity=".8"/>`;
+}
+
+function sDentist3(t) {
+  const drill = (x, y, r, sh) => `<g transform="translate(${x + Math.sin(t * 80 + sh) * 3},${y}) rotate(${r})"><rect class="o" x="-90" y="-14" width="110" height="28" rx="12" fill="#c9d3da"/><path class="o" d="M20,-8 h40 l14,8 l-14,8 h-40Z" fill="#8a97a3"/></g>`;
+  let sparks = "";
+  if (t >= LS(20)) for (let i = 0; i < 8; i++) { const k = (t * 3 + i / 8) % 1, a = i * 0.8; sparks += `<circle cx="${470 + Math.cos(a) * k * 90}" cy="${720 + Math.sin(a) * k * 70}" r="${5 * (1 - k)}" fill="#ffd23c"/>`; }
+  const clock = pop(t, LS(19)), pr = pop(t, LS(21));
+  return `${clinic(t)}${kevin({ x: 470, y: 1085, s: 1.1, t, expr: "teeth", tilt: -6 + Math.sin(t * 40) * (t >= LS(20) ? 1.5 : 0) })}
+    ${t >= LS(20) ? drill(360, 690, 12, 0) + drill(380, 760, -14, 2) + sparks : ""}
+    <g transform="translate(150,620) scale(${t >= LS(21) ? 0 : clock})"><circle class="o" r="74" fill="#fff"/><path class="o" d="M0,0 v-50 M0,0 l${Math.cos(t * 9) * 40},${Math.sin(t * 9) * 40}" fill="none"/><text y="130" text-anchor="middle" font-size="44" fill="#151515">40 MIN</text></g>
+    ${pr <= 0 ? "" : `<g transform="translate(170,1085) scale(${pr * 1.05})"><path class="o" d="M-70,0 q-10,-240 20,-330 h100 q30,90 20,330Z" fill="#1f1f24"/><rect class="o" x="-16" y="-336" width="32" height="16" fill="#fff"/>
+      <circle class="o" cx="0" cy="-400" r="58" fill="#e0b08a"/><circle cx="-18" cy="-406" r="5" fill="#151515"/><circle cx="20" cy="-406" r="5" fill="#151515"/><path class="o" d="M-14,-376 h28" fill="none"/>
+      <path class="o" d="M70,-300 v110 M40,-262 h60" fill="none" stroke-width="12" stroke="#c9a23c"/></g>`}`;
+}
+
+function sCard(t) {
+  const bar = (y, label, n, col, t0, lost) => { const k = eo(prog(t, t0, 0.5)); return `
+    <text x="90" y="${y - 20}" font-size="64" fill="${col}">${label}</text>
+    <rect x="90" y="${y}" width="540" height="64" rx="12" fill="#2a2a34"/><rect x="90" y="${y}" width="${540 * n / 8 * k}" height="64" rx="12" fill="${col}"/>
+    <text x="${110 + 540 * n / 8 * k}" y="${y + 50}" font-size="52" fill="#fff">${Math.round(n * k)}</text>${lost || ""}`; };
+  const ghost = pop(t, LS(6));
+  return `<rect width="720" height="1280" fill="#14141c"/>
+    <text x="360" y="330" text-anchor="middle" font-size="58" fill="#fff">DAY 1 RESULTS</text>
+    <text class="ui" x="360" y="372" text-anchor="middle" font-size="22" font-weight="800" fill="#8a8aa0">YOUR COMMENTS, COUNTED</text>
+    ${bar(520, "TEETH", 5, COL.y, LS(3), sticker(560, 480, "WINNER", COL.g, pop(t, LS(4) + 0.3), 8, 34))}
+    ${bar(720, "SHEETS", 3, COL.b, LS(3) + 0.2, sticker(560, 680, "LOST", COL.r, pop(t, LS(5)), -8, 34, "#fff"))}
+    ${ghost <= 0 ? "" : `<g transform="translate(360,960) scale(${ghost}) rotate(${Math.sin(t * 5) * 4})"><path class="o" d="M-90,70 v-90 q0,-80 90,-80 q90,0 90,80 v90 l-30,-24 l-30,24 l-30,-24 l-30,24 l-30,-24Z" fill="#e9e3c8"/>
+      <circle cx="-46" cy="-10" r="12" fill="#c9b458"/><ellipse cx="40" cy="36" rx="20" ry="10" fill="#b9a24a"/>
+      <path class="o" d="M-52,-56 l34,14 M52,-56 l-34,14" fill="none" stroke-width="7"/><circle cx="-30" cy="-28" r="8" fill="#151515"/><circle cx="30" cy="-28" r="8" fill="#151515"/><path class="o" d="M-22,10 q22,-16 44,0" fill="none"/></g>`}`;
+}
+
+function sBath(t) {
+  let tiles = "";
+  for (let i = 0; i < 12; i++) tiles += `<path d="M${i * 60},0 v1280 M0,${i * 110} h720" stroke="#a9d6cf" stroke-width="3"/>`;
+  const wall = `<rect width="720" height="1280" fill="#c4e8e2"/>${tiles}`;
+  if (t < LS(7) + 1.1) return `<rect width="720" height="1280" fill="#0d0d12"/><g transform="translate(360,620) scale(${pop(t, LS(7) - 0.2)})">
+      <text text-anchor="middle" font-size="96" fill="#fff">ONE HOUR</text><text text-anchor="middle" y="110" font-size="96" fill="${COL.y}">EARLIER</text></g>`;
+  if (t >= LS(12) - 0.1) return `${wall}<rect y="1040" width="720" height="240" fill="#e8e6e1"/>
+      <rect class="o" x="430" y="330" width="230" height="720" fill="#a07a55"/><circle class="o" cx="460" cy="700" r="12" fill="#d9a441"/>
+      ${sticker(545, 440, "EXIT", COL.g, 1, 0, 40)}
+      ${kevin({ x: lerp(250, 380, eo(prog(t, LS(12), 1.2))), y: 1085, s: 1.05, t, expr: "sad", look: 1 })}`;
+  const close = t >= LS(9) - 0.1;
+  const fuzz = t >= LS(10) ? pop(t, LS(10)) : 0.55;
+  let hairs = "";
+  for (let i = 0; i < 18; i++) { const a = i / 18 * Math.PI * 2; hairs += `<path d="M${Math.cos(a) * 70},${Math.sin(a) * 52} l${Math.cos(a) * (16 + 6 * Math.sin(t * 6 + i))},${Math.sin(a) * (16 + 6 * Math.sin(t * 6 + i))}" stroke="#4d8a2a" stroke-width="6" stroke-linecap="round"/>`; }
+  const brush = `<g transform="rotate(8)"><rect class="o" x="-16" y="-120" width="32" height="430" rx="14" fill="#5cc8ff"/>
+      <rect class="o" x="-34" y="-250" width="68" height="140" rx="16" fill="#5cc8ff"/>
+      <g transform="translate(0,-190) scale(${fuzz})"><ellipse class="o" rx="76" ry="58" fill="#74b33c"/>${hairs}
+        <circle class="o" cx="-24" cy="-8" r="17" fill="#fff"/><circle class="o" cx="24" cy="-8" r="17" fill="#fff"/>
+        <circle cx="${-24 + Math.sin(t * 2) * 5}" cy="-6" r="6" fill="#151515"/><circle cx="${24 + Math.sin(t * 2) * 5}" cy="-6" r="6" fill="#151515"/>
+        <path class="o" d="M-18,24 q18,14 36,0" fill="none"/></g></g>`;
+  const cup = `<path class="o" d="M-80,40 h160 l-16,240 h-128Z" fill="#fff" opacity=".92"/><path d="M-60,110 h120" stroke="#cfe6ff" stroke-width="10"/>`;
+  if (!close) return `${wall}<rect y="1040" width="720" height="240" fill="#e8e6e1"/>
+      <rect class="o" x="330" y="720" width="360" height="36" rx="8" fill="#fff"/><rect class="o" x="360" y="756" width="300" height="290" fill="#d9c7a6"/>
+      <g transform="translate(520,600) scale(.42)">${brush}${cup}</g>
+      ${kevin({ x: 230, y: 1085, s: 1.05, t, look: 1, aR: 70 })}`;
+  return `${wall}<rect class="o" x="-10" y="1010" width="740" height="40" fill="#fff"/><rect y="1050" width="720" height="230" fill="#d9c7a6"/>
+      <g transform="translate(360,730)">${brush}${cup}</g>
+      ${sticker(520, 420, "SINCE 2019", "#fff", pop(t, CS(9, 2)), 8, 36)}
+      ${t >= LS(11) ? `<g transform="translate(190,560) rotate(-8) scale(${pop(t, LS(11))})"><rect class="o" x="-110" y="-70" width="220" height="140" rx="12" fill="#fff"/><rect x="-110" y="-70" width="220" height="50" rx="12" fill="${COL.r}"/>
+        <text class="ui" x="0" y="-36" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">HELLO my name is</text><text x="0" y="48" text-anchor="middle" font-size="64" fill="#151515">GARY</text></g>` : ""}`;
+}
+
+function sXray(t) {
+  let teeth = "";
+  for (let i = 0; i < 9; i++) { const x = 170 + i * 44; teeth += `<path d="M${x},560 q16,-14 32,0 v50 q-16,22 -32,0Z M${x},720 q16,14 32,0 v-50 q-16,-22 -32,0Z" fill="#cfe9ff" opacity="${0.5 + 0.4 * rnd(i)}"/>`; }
+  const k = pop(t, CS(17, 2)), pulse = 1 + 0.12 * Math.sin(t * 9);
+  return `<rect width="720" height="1280" fill="#06080d"/>
+    <rect x="70" y="330" width="580" height="620" rx="18" fill="#0d2233" stroke="#2b5a7a" stroke-width="5"/>
+    <text class="ui" x="96" y="372" font-size="18" font-weight="800" fill="#5cc8ff">PATIENT: KEVIN · VIEW: REGRET</text>
+    <path d="M150,640 q210,-260 420,0 q-210,260 -420,0Z" fill="none" stroke="#7fb6cf" stroke-width="6" opacity=".7"/>
+    <path d="M190,880 q170,60 340,0" stroke="#7fb6cf" stroke-width="6" fill="none" opacity=".5"/>${teeth}
+    ${k <= 0 ? "" : `<g transform="translate(455,640) scale(${k})"><circle r="${46 * pulse}" fill="none" stroke="${COL.o}" stroke-width="7"/>
+      <path d="M-14,-6 q10,-18 24,-4 q14,12 0,22 q-14,10 -24,-2Z" fill="${COL.y}" stroke="#151515" stroke-width="3"/>
+      <path d="M60,-60 l70,-70" stroke="${COL.o}" stroke-width="6"/><text x="140" y="-140" font-size="34" fill="${COL.o}" text-anchor="middle">???</text></g>`}
+    ${sticker(360, 860, "ADMIT ONE · 2022", COL.y, pop(t, CS(18, 1)), -5, 38)}`;
+}
+
+function sReveal(t) {
+  if (t < LS(23)) return `<rect width="720" height="1280" fill="#06080d"/>${[0, 1, 2].map(i => `<circle cx="${300 + i * 60}" cy="640" r="${14 * pop(t, LS(22) + 0.2 + i * 0.25)}" fill="#fff"/>`).join("")}`;
+  let rays = "";
+  for (let i = 0; i < 16; i++) rays += `<path d="M360,600 L${360 + Math.cos(i * Math.PI / 8 + t * 0.4) * 1400},${600 + Math.sin(i * Math.PI / 8 + t * 0.4) * 1400} L${360 + Math.cos(i * Math.PI / 8 + 0.2 + t * 0.4) * 1400},${600 + Math.sin(i * Math.PI / 8 + 0.2 + t * 0.4) * 1400}Z" fill="#ffe680"/>`;
+  const flash = 1 - prog(t, LS(23), 0.5);
+  let spark = "";
+  [[250, 830], [470, 850], [360, 790], [300, 900], [430, 905]].forEach(([x, y], i) => { const s = 0.6 + 0.5 * Math.abs(Math.sin(t * 5 + i * 1.3)); spark += `<path transform="translate(${x},${y}) scale(${s})" d="M0,-30 l7,23 l23,7 l-23,7 l-7,23 l-7,-23 l-23,-7 l23,-7Z" fill="#fff" stroke="#151515" stroke-width="3"/>`; });
+  const fall = t - CS(25, 3);
+  const pig = t < LS(25) ? "" : `<g transform="translate(560,300)"><rect class="o" x="-110" y="-70" width="220" height="170" rx="10" fill="#8fd0f5"/><path d="M-110,-10 h220" stroke="#151515" stroke-width="4"/>
+    <g transform="translate(20,${fall > 0 ? -34 + fall * fall * 500 : -34}) rotate(${fall > 0 ? fall * 400 : 0})" opacity="${fall > 0.45 ? 0 : 1}"><ellipse class="o" rx="26" ry="18" fill="#9aa3b5"/><circle class="o" cx="22" cy="-18" r="13" fill="#9aa3b5"/><circle cx="26" cy="-20" r="3" fill="#151515"/><path d="M34,-16 l12,3 l-12,4Z" fill="#f08a4b"/></g></g>`;
+  return `<rect width="720" height="1280" fill="#ffd23c"/>${rays}
+    ${kevin({ x: 360, y: 1500, s: 2.0, t, expr: "grin", teeth: WHITE, stink: false })}${spark}${pig}
+    ${sticker(360, 330, "FIX #1 LOCKED", COL.g, pop(t, LS(27)), -4, 46)}
+    <rect width="720" height="1280" fill="#fff" opacity="${flash}"/>`;
+}
+
+function sPhone(t) {
+  const b1 = pop(t, LS(28) + 0.4), b2 = pop(t, LS(30));
+  const inner = `${b1 <= 0 ? "" : `<g transform="translate(172,440) scale(${b1})"><rect width="310" height="112" rx="24" fill="#e9e9ee"/>
+    <text class="ui" font-size="20" fill="#111"><tspan x="20" y="36">wait was that YOU at the</tspan><tspan x="20" y="64">dentist?? my mum is the</tspan><tspan x="20" y="92">receptionist there lol</tspan></text></g>`}
+    ${b2 <= 0 ? "" : `<g transform="translate(172,572) scale(${b2})"><rect width="290" height="56" rx="24" fill="#e9e9ee"/><text class="ui" x="20" y="36" font-size="20" fill="#111">she heard the screaming</text></g>`}`;
+  return phone(t, inner, LS(28) - 0.25);
+}
+
+function sBed(t) {
+  const lie = eo(prog(t, LS(32) + 0.1, 0.35));
+  const angry = pop(t, LS(33));
+  let st = "";
+  for (let i = 0; i < 5; i++) { const k = (t * 0.4 + i / 5) % 1; st += `<path d="M${120 + i * 120},${900 - k * 120} q14,-14 0,-28 q-14,-14 0,-28" stroke="#74b33c" stroke-width="6" fill="none" stroke-linecap="round" opacity="${lie * 0.9 * Math.sin(k * Math.PI)}"/>`; }
+  const kx = lerp(360, 620, lie), ky = lerp(1085, 885, lie);
+  return `<rect width="720" height="1280" fill="#1c2452"/><rect y="1060" width="720" height="220" fill="#4a3528"/>
+    <rect class="o" x="545" y="250" width="110" height="150" fill="#b8323a"/><path d="M600,285 l34,62 h-68Z" fill="#ffd23c"/>
+    <rect class="o" x="20" y="800" width="60" height="280" rx="10" fill="#7a5236"/>
+    <rect class="o" x="60" y="930" width="640" height="150" rx="14" fill="#7a5236"/>
+    <path class="o" d="M70,900 h620 q14,0 14,30 v50 h-648 v-50 q0,-30 14,-30Z" fill="#ddd6b3"/>
+    <ellipse cx="300" cy="940" rx="46" ry="16" fill="#b9a24a"/><ellipse cx="520" cy="952" rx="60" ry="14" fill="#a8913f"/><circle cx="420" cy="925" r="12" fill="#8a5a2c"/>
+    <rect class="o" x="84" y="860" width="150" height="56" rx="24" fill="#efe9d2"/>
+    ${angry <= 0 ? "" : `<g transform="translate(560,935) scale(${angry})"><path class="o" d="M-40,-22 l30,12 M40,-22 l-30,12" fill="none" stroke-width="7"/><circle cx="-22" cy="2" r="8" fill="#151515"/><circle cx="22" cy="2" r="8" fill="#151515"/></g>`}
+    <g transform="translate(${kx},${ky}) rotate(${-90 * lie}) translate(${-kx},${-ky})">${kevin({ x: kx, y: ky, s: 1.05, t, expr: lie > 0.9 && t > LS(33) ? "shock" : "grin", teeth: WHITE, stink: false, noFlies: lie > 0.5 })}</g>${st}`;
+}
+
+function sVote(t) {
+  const sheet = `<g transform="translate(0,150) rotate(180)"><path class="o" d="M-40,0 h80 v90 l-20,-14 l-20,14 l-20,-14 l-20,14Z" fill="#ddd6b3"/><circle cx="-10" cy="40" r="9" fill="#b9a24a"/></g>`;
+  let drops = "";
+  for (let i = 0; i < 7; i++) { const k = (t * 1.6 + i / 7) % 1; drops += `<ellipse cx="${470 + i * 24}" cy="${560 + k * 230}" rx="5" ry="11" fill="#5cc8ff" opacity="${1 - k}"/>`; }
+  const g = pop(t, LS(36)), h = pop(t, LS(37)), v = pop(t, LS(39) - 0.1);
+  const title = (x, k, txt, col, a, b) => k <= 0 ? "" : `<g transform="translate(${x},400) scale(${k})"><text text-anchor="middle" font-size="74" fill="${col}" stroke="#0a0a0a" stroke-width="10" paint-order="stroke">${txt}</text>
+    <text class="ui" text-anchor="middle" y="36" font-size="17" font-weight="800" fill="#fff">${a}</text><text class="ui" text-anchor="middle" y="58" font-size="17" font-weight="800" fill="#fff">${b}</text></g>`;
+  return `<rect width="360" height="1280" fill="#4a1414"/><rect x="360" width="360" height="1280" fill="#123d22"/>
+    <path d="M360,0 v1280" stroke="${COL.y}" stroke-width="4"/>
+    <text x="360" y="300" text-anchor="middle" font-size="44" fill="${COL.y}" stroke="#0a0a0a" stroke-width="8" paint-order="stroke">COMMENT ONE WORD</text>
+    ${title(180, g, "SHEETS", COL.y, "WASH THEM.", "THEY ARE ANGRY.")}${title(540, h, "SHOWER", COL.b, "YOU ASKED.", "WE HEARD.")}
+    ${h > 0 ? `<path class="o" d="M440,520 h200 v26 h-200Z" fill="#c9d3da"/><path class="o" d="M540,470 v50" fill="none" stroke-width="12" stroke="#8a97a3"/>${drops}` : ""}
+    ${kevin({ x: 180, y: 980, s: 0.72, t, heldR: sheet, aR: 150, expr: "grin", teeth: WHITE })}
+    ${kevin({ x: 540, y: 980, s: 0.72, t: t + 2, expr: "grin", teeth: WHITE, aL: 60, aR: 60 })}
+    ${v <= 0 ? "" : `<g transform="translate(360,1030) scale(${v * (1 + 0.05 * Math.sin(t * 9))})"><rect class="o" x="-130" y="-34" width="260" height="68" rx="14" fill="${COL.y}"/><text text-anchor="middle" y="16" font-size="42" fill="#151515">VOTE NOW</text></g>`}
+    ${t > LS(40) ? `<text class="ui" x="360" y="1238" text-anchor="middle" font-size="20" font-weight="800" fill="#fff" opacity="${prog(t, LS(40), 0.3)}">DAY 3 STARTS WITH YOUR CHOICE →</text>` : ""}`;
+}
+
+const SC = { dentist1: sDentist1, card: sCard, bath: sBath, dentist2: sDentist2, xray: sXray, dentist3: sDentist3, reveal: sReveal, phone: sPhone, bed: sBed, vote: sVote };
+const CAPY = { phone: 1195, vote: 1180, card: 1150, xray: 1080, reveal: 1060 };
+window.SUBTXT = "Bridesmaid · the wedding";
+
+window.renderAt = function (t) {
+  const sc = TL.scenes.find(s => t >= s.start && t < s.end) || TL.scenes[TL.scenes.length - 1];
+  const k = 1.05 - 0.05 * eo(prog(t, sc.start, 0.2));
+  const pct = 4 * eo(prog(t, LS(26), 0.6));
+  document.getElementById("s").innerHTML =
+    `<g transform="translate(360,640) scale(${k}) translate(-360,-640)">${SC[sc.name](t)}</g>` +
+    (sc.name === "vote" ? "" : hud(29, pct)) + (sc.name === "bath" && t < LS(7) + 1.1 ? "" : caption(t, CAPY[sc.name] || 950));
+};
+const q = new URLSearchParams(location.search);
+if (q.has("t")) renderAt(+q.get("t"));
+</script>
+</body>
+</html>

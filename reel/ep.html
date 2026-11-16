@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Kevin Episode</title>
+<style>
+@font-face { font-family: Anton; src: url(fonts/Anton.woff2) format("woff2"); }
+@font-face { font-family: Inter; src: url(fonts/Inter.woff2) format("woff2"); font-weight: 100 900; }
+html, body { margin: 0; background: #000; }
+svg { display: block; width: 720px; height: 1280px; }
+text { font-family: Anton, Impact, sans-serif; }
+.ui { font-family: Inter, Arial, sans-serif; }
+.o { stroke: #151515; stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; }
+</style>
+</head>
+<body>
+<svg id="s" viewBox="0 0 720 1280" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+// generic shell: ep.html?ep=day3 loads build/day3/timeline.js + day3.js
+const EPN = new URLSearchParams(location.search).get("ep");
+for (const src of [`build/${EPN}/timeline.js`, "lib.js", "lib2.js", `${EPN}.js`, "shell.js"])
+  document.write(`<script src="${src}"><\/script>`);
+</script>
+</body>
+</html>

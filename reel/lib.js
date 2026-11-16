@@ -12,6 +12,7 @@ const COL = { y: "#ffd23c", g: "#7be04a", p: "#ff7ac0", b: "#5cc8ff", r: "#ff4a4
 
 /* ---------- character ---------- */
 function kevin(o) {
+  o = Object.assign({}, window.KDEF || {}, o);
   const t = o.t || 0, e = o.expr || "neutral";
   const bob = Math.sin(t * 2.2) * 3;
   const aL = o.aL ?? 12, aR = o.aR ?? 12;
@@ -19,9 +20,9 @@ function kevin(o) {
   const arm = (side, ang, held) => `
     <g transform="translate(${side * 112},${-292 + bob}) rotate(${-side * ang})">
       <rect class="o" x="-24" y="-8" width="48" height="92" rx="24" fill="${o.suit ? "#2c3344" : HOOD}"/>
-      <rect class="o" x="-20" y="70" width="40" height="70" rx="20" fill="#f3a45a"/>
-      <circle class="o" cx="0" cy="146" r="25" fill="#f39a45"/>
-      <circle cx="-8" cy="118" r="5" fill="#d9641c"/><circle cx="9" cy="100" r="4" fill="#d9641c"/>
+      <rect class="o" x="-20" y="70" width="40" height="70" rx="20" fill="${o.clean ? SKIN : "#f3a45a"}"/>
+      <circle class="o" cx="0" cy="146" r="25" fill="${o.clean ? SKIN : "#f39a45"}"/>
+      ${o.clean ? "" : `<circle cx="-8" cy="118" r="5" fill="#d9641c"/><circle cx="9" cy="100" r="4" fill="#d9641c"/>`}
       ${held || ""}
     </g>`;
   const eyes = () => {
@@ -70,7 +71,7 @@ function kevin(o) {
     ${o.noShadow ? "" : `<ellipse cx="0" cy="4" rx="150" ry="18" fill="#000" opacity=".22"/>`}
     <rect class="o" x="-80" y="-140" width="66" height="130" rx="14" fill="#6c7482"/>
     <rect class="o" x="14" y="-140" width="66" height="130" rx="14" fill="#6c7482"/>
-    <circle cx="-52" cy="-70" r="7" fill="#c9b458"/><circle cx="50" cy="-40" r="6" fill="#8a5a2c"/>
+    ${o.fresh ? "" : `<circle cx="-52" cy="-70" r="7" fill="#c9b458"/><circle cx="50" cy="-40" r="6" fill="#8a5a2c"/>`}
     <ellipse class="o" cx="-50" cy="-8" rx="44" ry="16" fill="#efe7d2"/>
     <ellipse class="o" cx="50" cy="-8" rx="44" ry="16" fill="#efe7d2"/>
     <g transform="translate(0,${bob})">
@@ -78,9 +79,9 @@ function kevin(o) {
       <circle cx="0" cy="-140" r="6" fill="#b9805c"/>
       <path d="M-40,-128 l4,8 M-20,-120 l3,8 M22,-122 l-3,8 M44,-130 l-4,8 M-60,-140 l3,8 M62,-142 l-3,8" stroke="${HAIR}" stroke-width="3" stroke-linecap="round"/>
       <path class="o" d="M-102,-306 Q-154,-240 -140,-182 Q0,-150 140,-182 Q154,-240 102,-306 Q0,-330 -102,-306Z" fill="${HOOD}"/>
-      <circle cx="-50" cy="-240" r="15" fill="#e88a2a"/><circle cx="36" cy="-262" r="10" fill="#c23b2b"/>
+      ${o.fresh ? "" : `<circle cx="-50" cy="-240" r="15" fill="#e88a2a"/><circle cx="36" cy="-262" r="10" fill="#c23b2b"/>
       <ellipse cx="62" cy="-212" rx="20" ry="11" fill="#e88a2a"/><circle cx="-12" cy="-208" r="9" fill="#7a5a2e"/>
-      <circle cx="-84" cy="-206" r="8" fill="#c23b2b"/>
+      <circle cx="-84" cy="-206" r="8" fill="#c23b2b"/>`}
       ${suit}
       ${o.extra || ""}
     </g>

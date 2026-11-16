@@ -7,7 +7,7 @@ const fs = require("fs");
 const path = require("path");
 
 const dir = __dirname, FPS = 30, EP = process.env.EP || "day1";
-const B = EP === "day1" ? "build" : "build/" + EP, HTML = EP === "day1" ? "index.html" : EP + ".html";
+const B = EP === "day1" ? "build" : "build/" + EP, HTML = EP === "day1" ? "index.html" : fs.existsSync(path.join(__dirname, EP + ".html")) ? EP + ".html" : "ep.html?ep=" + EP;
 const tl = JSON.parse(fs.readFileSync(path.join(dir, B + "/timeline.json")));
 fs.writeFileSync(path.join(dir, B + "/timeline.js"), "window.TL=" + JSON.stringify(tl) + ";");
 fs.mkdirSync(path.join(dir, "out"), { recursive: true });

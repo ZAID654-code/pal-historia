@@ -63,6 +63,12 @@ function sheetGhost(x, y, k, t, col = "#e9e3c8", n = 1) {
 function chat(t, t0, bubbles) {
   let y = 440, inner = "";
   for (const b of bubbles) {
+    if (b.pic) {  // photo sent by Kevin: an elbow
+      const k = pop(t, b.at);
+      if (k > 0) inner += `<g transform="translate(548,${y}) scale(${k})"><rect x="-190" y="0" width="190" height="150" rx="22" fill="#1d8bff"/><rect x="-180" y="10" width="170" height="130" rx="14" fill="#cfe6ff"/>
+        <path d="M-170,120 q60,-110 90,-40 q30,50 60,40" stroke="${SKIN}" stroke-width="46" fill="none" stroke-linecap="round"/><path d="M-96,62 q8,-10 16,0" stroke="#b9805c" stroke-width="4" fill="none"/></g>`;
+      y += 166; continue;
+    }
     const h = 28 * b.lines.length + 28, k = pop(t, b.at);
     const w = Math.max(...b.lines.map(l => l.length)) * 11.5 + 44;
     if (k > 0) inner += `<g transform="translate(172,${y}) scale(${k})"><rect width="${w}" height="${h}" rx="24" fill="#e9e9ee"/>

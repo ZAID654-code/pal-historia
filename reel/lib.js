@@ -20,8 +20,8 @@ function kevin(o) {
   const arm = (side, ang, held) => `
     <g transform="translate(${side * 112},${-292 + bob}) rotate(${-side * ang})">
       <rect class="o" x="-24" y="-8" width="48" height="92" rx="24" fill="${o.suit ? "#2c3344" : HOOD}"/>
-      <rect class="o" x="-20" y="70" width="40" height="70" rx="20" fill="${o.clean ? SKIN : "#f3a45a"}"/>
-      <circle class="o" cx="0" cy="146" r="25" fill="${o.clean ? SKIN : "#f39a45"}"/>
+      <rect class="o" x="-20" y="70" width="40" height="70" rx="20" fill="${o.clean ? (o.skin || SKIN) : "#f3a45a"}"/>
+      <circle class="o" cx="0" cy="146" r="25" fill="${o.clean ? (o.skin || SKIN) : "#f39a45"}"/>
       ${o.clean ? "" : `<circle cx="-8" cy="118" r="5" fill="#d9641c"/><circle cx="9" cy="100" r="4" fill="#d9641c"/>`}
       ${held || ""}
     </g>`;
@@ -31,7 +31,7 @@ function kevin(o) {
     return [-1, 1].map(s => `
       <circle class="o" cx="${s * 32}" cy="-398" r="${wide}" fill="#fff"/>
       <circle cx="${s * 32 + look * 8}" cy="${-396 + (e === "sad" ? 5 : 0)}" r="${p}" fill="#151515"/>
-      ${lid ? `<path class="o" d="M${s * 32 - 20},-402 Q${s * 32},-418 ${s * 32 + 20},-402" fill="${SKIN}"/>` : ""}
+      ${lid ? `<path class="o" d="M${s * 32 - 20},-402 Q${s * 32},-418 ${s * 32 + 20},-402" fill="${o.skin || SKIN}"/>` : ""}
       <path d="M${s * 32 - 16},-370 q16,10 32,0" stroke="#c98a63" stroke-width="4" fill="none"/>`).join("");
   };
   const mouth = {
@@ -75,7 +75,7 @@ function kevin(o) {
     <ellipse class="o" cx="-50" cy="-8" rx="44" ry="16" fill="#efe7d2"/>
     <ellipse class="o" cx="50" cy="-8" rx="44" ry="16" fill="#efe7d2"/>
     <g transform="translate(0,${bob})">
-      <ellipse class="o" cx="0" cy="-172" rx="128" ry="78" fill="${SKIN}"/>
+      <ellipse class="o" cx="0" cy="-172" rx="128" ry="78" fill="${o.skin || SKIN}"/>
       <circle cx="0" cy="-140" r="6" fill="#b9805c"/>
       <path d="M-40,-128 l4,8 M-20,-120 l3,8 M22,-122 l-3,8 M44,-130 l-4,8 M-60,-140 l3,8 M62,-142 l-3,8" stroke="${HAIR}" stroke-width="3" stroke-linecap="round"/>
       <path class="o" d="M-102,-306 Q-154,-240 -140,-182 Q0,-150 140,-182 Q154,-240 102,-306 Q0,-330 -102,-306Z" fill="${HOOD}"/>
@@ -87,8 +87,8 @@ function kevin(o) {
     </g>
     ${arm(-1, aL, o.heldL)}${arm(1, aR, o.heldR)}
     <g transform="translate(0,${bob * 1.3}) rotate(${o.tilt || 0},0,-320)">
-      <circle class="o" cx="-86" cy="-382" r="17" fill="${SKIN}"/><circle class="o" cx="86" cy="-382" r="17" fill="${SKIN}"/>
-      <circle class="o" cx="0" cy="-385" r="88" fill="${SKIN}"/>
+      <circle class="o" cx="-86" cy="-382" r="17" fill="${o.skin || SKIN}"/><circle class="o" cx="86" cy="-382" r="17" fill="${o.skin || SKIN}"/>
+      <circle class="o" cx="0" cy="-385" r="88" fill="${o.skin || SKIN}"/>
       <path d="M-70,-352 Q-60,-300 0,-296 Q60,-300 70,-352 Q40,-318 0,-318 Q-40,-318 -70,-352Z" fill="${HAIR}" opacity=".28"/>
       ${stub}
       <path class="o" d="M-90,-410 L-112,-452 L-80,-446 L-88,-492 L-52,-466 L-40,-512 L-12,-474 L14,-520 L30,-474 L62,-506 L64,-462 L104,-474 L86,-434 L116,-420 L88,-404 Q60,-450 0,-452 Q-60,-450 -90,-410Z" fill="${HAIR}"/>

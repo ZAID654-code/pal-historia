@@ -1,5 +1,6 @@
 // Day 3: SHOWER, test-batch cut. Long 60 s cut lives in day3long.js.
-const DIRTY = { teeth: WHITE }, CLEAN = { teeth: WHITE, clean: true, stink: false, noFlies: true };
+const GRIMY = "#b8895c";
+const DIRTY = { teeth: WHITE, skin: GRIMY }, CLEAN = { teeth: WHITE, clean: true, stink: false, noFlies: true };
 
 function stall(t, o = {}) {
   let tiles = "";
@@ -58,20 +59,56 @@ function sWash(t) {
     + sticker(250, 470, "STILL WARM", COL.o, pop(t, LS(9)), -7, 44);
 }
 
+const hex = c => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16));
+const mix = (c1, c2, k) => { const a = hex(c1), b = hex(c2); return "#" + a.map((v, i) => Math.round(v + (b[i] - v) * clamp(k)).toString(16).padStart(2, "0")).join(""); };
+// reward beats: glow-up ticks 4 -> 9 one percent at a time
+const TICKS = () => [CS(10, 2), CS(11, 2), CS(12, 0), CS(12, 1), CS(12, 2)];
+const steps = t => TICKS().filter(x => t >= x).length;
+
+function sScrub(t) {
+  const n = steps(t), last = n ? TICKS()[n - 1] : 0;
+  const clean = clamp((n - 1 + eo(prog(t, last, 0.4))) / 5), grime = Math.round(100 * (1 - clean));
+  let bub = "";
+  for (let i = 0; i < 16; i++) { const k = (t * (0.35 + rnd(i) * 0.3) + rnd(i + 20)) % 1; bub += `<circle cx="${130 + rnd(i + 40) * 460}" cy="${760 - k * 420}" r="${10 + rnd(i + 60) * 22}" fill="#fff" stroke="#9fd8f2" stroke-width="3" opacity="${0.85 * Math.sin(k * Math.PI)}"/>`; }
+  let drips = "";
+  for (let i = 0; i < 6; i++) { const k = (t * 1.4 + i / 6) % 1; drips += `<ellipse cx="${250 + i * 44}" cy="${760 + k * 230}" rx="7" ry="13" fill="#8a5a2c" opacity="${(1 - clean) * (1 - k)}"/>`; }
+  const soap = t < LS(10) ? "" : (() => { const k = eo(prog(t, CS(10, 2), 0.5)); return `<g transform="translate(${lerp(560, 470, k)},${lerp(760, 520, k) - Math.sin(k * Math.PI) * 120}) rotate(${k * 360})">
+      <rect class="o" x="-60" y="-34" width="120" height="68" rx="20" fill="#ff7ac0"/><path d="M-36,-12 h40" stroke="#fff" stroke-width="8" stroke-linecap="round"/></g>
+      <g transform="translate(590,800) rotate(${20 + k * 40})" opacity="${1 - k}"><rect class="o" x="-64" y="-38" width="128" height="76" rx="8" fill="#ffd0e8"/><text text-anchor="middle" y="10" font-size="26" fill="#b0407a">SOAP</text></g>`; })();
+  let plus = "";
+  TICKS().forEach((x, i) => { const k = prog(t, x, 0.9); if (k > 0 && k < 1) plus += `<text x="${300 + i * 20}" y="${620 - eo(k) * 380}" text-anchor="middle" font-size="${70 + 30 * back(prog(t, x, 0.2))}" fill="${COL.g}" stroke="#0a0a0a" stroke-width="12" paint-order="stroke" opacity="${1 - k * k}">+1%</text>`; });
+  const shake = n && t - last < 0.2 ? Math.sin(t * 90) * 5 : 0;
+  return stall(t, { water: "#7fc4ea", behind: kevin({ x: 360 + shake, y: 1085, s: 1.05, t: t * 2, teeth: WHITE, skin: mix(GRIMY, SKIN, clean), stink: false, noFlies: true, expr: n >= 3 ? "grin" : n >= 1 ? "smug" : "neutral", zit: 0 }) })
+    + curtain() + tub(mix("#8a5a2c", "#7fc4ea", clean)) + drips + bub + soap
+    + `<g transform="translate(626,640) scale(.92)"><rect class="o" x="-34" y="-240" width="68" height="480" rx="14" fill="#14141c"/>
+        <rect x="-22" y="${-228 + 456 * clean}" width="44" height="${456 * (1 - clean)}" rx="8" fill="${mix("#8a5a2c", COL.g, clean)}"/>
+        <text text-anchor="middle" y="-262" font-size="30" fill="#151515">GRIME</text><text text-anchor="middle" y="290" font-size="40" fill="#151515">${grime}%</text></g>`
+    + plus;
+}
+
 function sReveal(t) {
-  const sw = pop(t, CS(10, 2));
+  const open = eo(prog(t, LS(14) - 0.15, 0.7));
+  let steam = "";
+  for (let i = 0; i < 14; i++) { const a = i / 14 * Math.PI * 2, r = 60 + rnd(i) * 160; steam += `<circle cx="${360 + Math.cos(a) * (r + open * 620)}" cy="${700 + Math.sin(a) * (r * 1.4 + open * 760)}" r="${200 + rnd(i + 9) * 80}" fill="#fff" opacity="${0.96 * (1 - open * 0.6)}"/>`; }
+  steam += `<circle cx="360" cy="700" r="${300 * (1 - open)}" fill="#fff"/>`;
+  const sw = pop(t, CS(14, 1)), win = t - LS(15);
+  let conf = "";
+  if (win >= 0) for (let i = 0; i < 46; i++) { const x = rnd(i) * 720, v = 500 + rnd(i + 70) * 500; conf += `<rect x="${x + Math.sin(win * 5 + i) * 30}" y="${-40 + win * v - 60 * rnd(i + 30)}" width="16" height="26" fill="${[COL.y, COL.g, COL.p, COL.b, COL.r][i % 5]}" transform="rotate(${win * 400 + i * 40},${x},${-40 + win * v})"/>`; }
+  const ach = pop(t, LS(15));
   return starburst(t, "#5cc8ff", "#8ad8ff")
     + kevin(Object.assign({ x: 360, y: 1500, s: 2.0, t, expr: "grin" }, CLEAN))
-    + sparkles(t, [[150, 520], [570, 560], [120, 880], [600, 900], [360, 380]])
-    + (sw > 0 ? `<g transform="translate(360,410) scale(${sw})"><rect class="o" x="-190" y="-50" width="380" height="100" rx="14" fill="#fff"/>
-        <rect class="o" x="-170" y="-32" width="64" height="64" fill="#b58a5e"/><text class="ui" x="-94" y="8" font-size="20" font-weight="800" fill="#151515">BEFORE</text>
+    + sparkles(t, [[150, 620], [570, 640], [120, 900], [600, 920]])
+    + (sw > 0 && ach <= 0 ? `<g transform="translate(360,410) scale(${sw})"><rect class="o" x="-190" y="-50" width="380" height="100" rx="14" fill="#fff"/>
+        <rect class="o" x="-170" y="-32" width="64" height="64" fill="${GRIMY}"/><text class="ui" x="-94" y="8" font-size="20" font-weight="800" fill="#151515">BEFORE</text>
         <rect class="o" x="10" y="-32" width="64" height="64" fill="${SKIN}"/><text class="ui" x="86" y="8" font-size="20" font-weight="800" fill="#151515">AFTER</text></g>` : "")
-    + sticker(150, 540, "0 FLIES", COL.g, pop(t, LS(10) + 0.7), -8, 38) + sticker(570, 540, "0 SMELL", COL.g, pop(t, LS(10) + 1.0), 8, 38)
-    + `<rect width="720" height="1280" fill="#fff" opacity="${1 - prog(t, LS(10) - 0.2, 0.5)}"/>`;
+    + steam + conf
+    + (ach > 0 ? `<g transform="translate(360,420) rotate(-3) scale(${ach})"><rect class="o" x="-290" y="-66" width="580" height="132" rx="20" fill="#14141c"/>
+        <circle class="o" cx="-220" cy="0" r="44" fill="${COL.y}"/><path d="M-220,-24 l8,16 l18,2 l-13,13 l3,18 l-16,-9 l-16,9 l3,-18 l-13,-13 l18,-2Z" fill="#151515"/>
+        <text class="ui" x="-156" y="-16" font-size="20" font-weight="800" fill="#8a8aa0">FIX 2 OF 30 UNLOCKED</text><text x="-156" y="40" font-size="52" fill="${COL.g}">ACTUALLY CLEAN</text></g>` : "");
 }
 
 function sBed(t) {
-  const g = pop(t, CS(15, 1));
+  const g = pop(t, CS(19, 1));
   return bedroom(t, { angry: g > 0 ? g : 0.0001, stink: 1 })
     + sheetGhost(540, 760, g, t, "#e9e3c8", 2)
     + kevin(Object.assign({ x: 190, y: 1090, s: 1.0, t, look: 1, expr: g > 0 ? "shock" : "grin" }, CLEAN));
@@ -87,16 +124,16 @@ const premise = (t, name) => name === "vote" ? "" : `<g class="ui"><rect x="474"
     <text class="ui" x="583" y="162" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">KEVIN VS</text><text x="583" y="204" text-anchor="middle" font-size="30" fill="${COL.p}">A WEDDING</text></g>`;
 
 window.EP = {
-  days: 28, pct: [4, 9, LS(11)],
-  punch: [0, LS(1), CS(2, 2), LS(3), LS(5), CS(6, 2), CS(7, 2), CS(8, 2), LS(9), LS(10), LS(11), CS(13, 1), CS(14, 1), CS(15, 1)],
-  CAPY: { vote: 1180, reveal: 1060, wash: 900, hook: 900, phone: 1195 },
+  days: 28, pct: [4, 9, 0], pctFn: t => 4 + steps(t),
+  punch: [0, LS(1), CS(2, 2), LS(3), LS(5), CS(6, 2), CS(7, 2), CS(8, 2), LS(9), ...TICKS(), LS(14), LS(15), CS(17, 1), CS(18, 1), CS(19, 1)],
+  CAPY: { vote: 1180, reveal: 1080, wash: 900, hook: 900, scrub: 900, phone: 1195 },
   overlay: (t, n) => premise(t, n) + badge(t, n),
   SC: {
-    hook: sHook, wash: sWash, reveal: sReveal, bed: sBed,
-    phone: t => chat(t, LS(12) - 0.25, [{ lines: ["send a pic. a RECENT one."], at: LS(12) }, { me: true, pic: true, at: CS(13, 1) }, { lines: ["...nice elbow"], at: CS(14, 1) }]),
+    hook: sHook, wash: sWash, scrub: sScrub, reveal: sReveal, bed: sBed,
+    phone: t => chat(t, LS(16) - 0.25, [{ lines: ["send a pic. a RECENT one."], at: LS(16) }, { me: true, pic: true, at: CS(17, 1) }, { lines: ["...nice elbow"], at: CS(18, 1) }]),
     vote: t => voteScene(t, {
       a: { label: "SHEETS", col: COL.y, s1: "THIRD TIME", s2: "ASKING.", k: Object.assign({ heldR: HELD.sheet, aR: 150, expr: "sad" }, CLEAN) },
       b: { label: "DEODORANT", col: COL.b, s1: "SMELL NICE.", s2: "ON PURPOSE.", k: Object.assign({ heldR: HELD.spray, aR: 150, expr: "grin" }, CLEAN) },
-      ta: LS(16) - 0.2, tb: CS(16, 1), tv: LS(17), tf: LS(17) + 0.3, footer: "DAY 4 STARTS WITH YOUR CHOICE" }),
+      ta: LS(20) - 0.2, tb: CS(20, 1), tv: LS(21), tf: LS(21) + 0.3, footer: "DAY 4 STARTS WITH YOUR CHOICE" }),
   },
 };

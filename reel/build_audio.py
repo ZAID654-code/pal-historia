@@ -165,6 +165,10 @@ def pluck(f, d=0.5):
 
 def sfx(name):
     rng = np.random.default_rng(3)
+    if name.startswith("coin"):  # reward blip, pitch rises with the number
+        f = 880 * 2 ** (int(name[4:]) * 2 / 12)
+        a = np.concatenate([tone(f, 0.07), tone(f * 1.5, 0.3)])
+        return a * np.exp(-np.arange(len(a)) / SR * 9) * 0.6
     if name == "pop":
         t = np.arange(int(0.09 * SR)) / SR
         return np.sin(2 * np.pi * (300 + 900 * np.exp(-t * 40)) * t) * np.exp(-t * 35)

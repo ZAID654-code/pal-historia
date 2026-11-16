@@ -255,9 +255,9 @@ def main():
         built.append(tts(u, say.strip()))
     speech = sum(len(c) for c, _ in built) / SR
     units = sum(s[2] for s in S)
-    lead, tail = 0.3, 1.4
+    lead, tail = (getattr(_m, 'LEAD', 0.3), getattr(_m, 'TAIL', 1.4)) if EP != 'day1' else (0.3, 1.4)
     if TOTAL is None:
-        TOTAL = round(lead + tail + speech + units * 0.5, 2)
+        TOTAL = round(lead + tail + speech + units * getattr(_m, 'UNIT', 0.5), 2)
     unit = (TOTAL - lead - tail - speech) / units
     print(f"speech {speech:.1f}s, pause unit {unit:.3f}s")
     if unit < 0.15:

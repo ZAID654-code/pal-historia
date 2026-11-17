@@ -131,8 +131,9 @@ function sBed(t) {
   const bad = t >= LS(29), k = pop(t, LS(29));
   return bedroom(t, { sheet: "#ffffff", clean: true, angry: bad ? k : 0, ax: 520 })
     + (bad ? "" : sparkles(t, [[200, 880], [380, 860], [560, 890], [640, 940]]))
-    + kevin(Object.assign({ x: 210, y: 1090, s: 1.0, t, look: 1, expr: bad ? "shock" : "grin" }, K, bad ? { stink: true } : {}))
-    + sticker(520, 760, "DON'T.", "#fff", k, 6, 64)
+    + kevin(Object.assign({ x: 210, y: 1090, s: 1.0, t, look: 1, expr: bad ? "shock" : "grin", tilt: bad ? Math.sin(t * 22) * 2 : 0 }, K, bad ? { stink: true } : {}))
+    + sticker(520, 760, t >= LS(31) ? "CHOOSE." : "DON'T.", t >= LS(31) ? COL.y : "#fff", t >= LS(31) ? pop(t, LS(31)) : k, 6, 64)
+    + voteOverlay(t, { t0: LS(30) - 0.25, ta: LS(30), tb: CS(30, 1), a: "DEODORANT", b: "GYM" })
     + (bad ? `<g transform="translate(210,${850 + Math.sin(t * 6) * 6}) scale(${k})"><path d="M-70,0 h140 M0,-70 v140" stroke="${COL.r}" stroke-width="0"/><circle r="150" fill="none" stroke="${COL.r}" stroke-width="10" stroke-dasharray="26 18" transform="rotate(${t * 60})"/></g>` : "");
 }
 
@@ -140,7 +141,7 @@ window.EP = {
   days: 27, pct: [9, 13, 0], pctFn: t => 9 + stepsOf(t, TICKS()),
   punch: [0, LS(1), LS(2), LS(4), CS(5, 1), CS(6, 2), LS(7), CS(8, 1), CS(9, 1), CS(10, 1), CS(12, 1), CS(14, 0), CS(15, 1), CS(16, 2), LS(17), CS(18, 2), ...TICKS(), LS(22), LS(24), LS(26), LS(27), LS(28), LS(29)],
   CAPY: { vote: 1180, hook: 1150, room: 1150, street: 1190, spin: 1150, reveal: 1130, stairs: 1150, bed: 1150 },
-  overlay: (t, n) => premiseTag(n) + (n !== "hook" && n !== "room" && n !== "street" && n !== "vote" ? voteBadge(t, LS(13) + 0.4, "DEODORANT", "GYM") : ""),
+  overlay: (t, n) => premiseTag(n) + (n !== "hook" && n !== "room" && n !== "street" && t < LS(30) - 0.3 ? voteBadge(t, LS(13) + 0.4, "DEODORANT", "GYM") : ""),
   SC: {
     hook: sHook, room: sRoom, street: sStreet, laundro: sLaundro, spin: sSpin, reveal: sReveal, stairs: sStairs, bed: sBed,
     vote: t => voteScene(t, {

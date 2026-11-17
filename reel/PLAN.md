@@ -38,10 +38,13 @@ Length 40-50 s. A stranger must understand it with zero context.
 | 20-27 s | REWARD | The satisfying part. A meter drains or fills. Glow-up ticks +1% at a time with rising coin sounds, on a three-beat line ("layer by layer by layer"). Kevin visibly changes. |
 | 27-32 s | REVEAL | Steam or flash, before/after, ACHIEVEMENT banner "FIX N OF 30 UNLOCKED", confetti. |
 | 32-38 s | TWIST | Emily text (on Emily days) or the cliffhanger that sets up the vote. |
-| last 5 s | VOTE | Split screen, two words, "you decide day N". |
+| last 5 s | VOTE | Two word buttons laid OVER the cliffhanger scene, which keeps moving. No cut to a separate vote screen (Day 3 data: viewers swiped away the moment the split screen appeared). Line under the buttons: "best comment gets shown tomorrow". |
 
 Always on screen: DAYS LEFT, GLOW-UP %, "KEVIN VS A WEDDING" tag.
-Optional, good for comments: 2-second "TOP COMMENT" card showing a real comment from yesterday.
+Every day when there is a usable one: 2-second "TOP COMMENT" card showing a real comment from yesterday.
+
+Day 3 trial-reel result (60 s cut): 52% left at 10 s, 28% at 55 s, 11 shares, comment rate 0.2%.
+So 60 s is fine; the weak point is commenting. Post episodes as normal reels so followers can vote.
 
 ---
 

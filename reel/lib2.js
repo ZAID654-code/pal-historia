@@ -169,3 +169,17 @@ function voteBadge(t, t0, a, b) {
     <rect class="o" x="-250" y="-34" width="500" height="68" rx="34" fill="#14141c"/>
     <text text-anchor="middle" y="14" font-size="${(a + b).length > 14 ? 32 : 36}" fill="#fff">NEXT: <tspan fill="${COL.y}">${a}</tspan> OR <tspan fill="${COL.b}">${b}</tspan>?</text></g>`;
 }
+
+/* vote laid over a scene that keeps playing (a cut to a separate vote screen made viewers swipe away).
+   c = {t0, ta, tb, a, b, note} */
+function voteOverlay(t, c) {
+  if (t < c.t0) return "";
+  const k = eo(prog(t, c.t0, 0.3));
+  const pill = (x, label, col, t1) => { const p = pop(t, t1); return p <= 0 ? "" : `<g transform="translate(${x},440) scale(${p * (1 + 0.04 * Math.sin(t * 9 + x))})"><rect class="o" x="-150" y="-50" width="300" height="100" rx="22" fill="${col}"/>
+    <text text-anchor="middle" y="20" font-size="${label.length > 7 ? 46 : 62}" fill="#151515">${label}</text></g>`; };
+  return `<g opacity="${k}"><rect x="24" y="${262 - 40 * (1 - k)}" width="672" height="316" rx="26" fill="#14141c" opacity=".94" stroke="#151515" stroke-width="5"/>
+      <text x="360" y="340" text-anchor="middle" font-size="46" fill="${COL.y}">COMMENT ONE WORD</text></g>
+    ${pill(190, c.a, COL.y, c.ta)}${pill(530, c.b, COL.b, c.tb)}
+    ${pop(t, c.tb) > 0 ? `<text x="360" y="452" text-anchor="middle" font-size="30" fill="#fff">OR</text>` : ""}
+    ${t > c.tb + 0.4 ? `<text class="ui" x="360" y="548" text-anchor="middle" font-size="21" font-weight="800" fill="#fff" opacity="${prog(t, c.tb + 0.4, 0.3)}">${c.note || "BEST COMMENT GETS SHOWN TOMORROW"}</text>` : ""}`;
+}

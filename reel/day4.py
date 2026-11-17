@@ -33,8 +33,8 @@ S = [
     ("stairs", "[r:TWICE]", 1.0, "."),
     ("bed", "THE BED | IS [g:CLEAN]", 0.6, "."),
     ("bed", "THE [r:HOODIE] | IS NOT", 1.0, "."),
-    ("vote", "[y:DEODORANT] | OR [b:GYM]", 0.5, "?"),
-    ("vote", "YOU [y:DECIDE] | DAY FIVE", 0, "."),
+    ("bed", "[y:DEODORANT] | OR [b:GYM]", 0.5, "?"),
+    ("bed", "YOU [y:DECIDE] | DAY FIVE", 0, "."),
 ]
 
 

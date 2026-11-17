@@ -3,9 +3,9 @@ TOTAL = None
 LEAD, TAIL, UNIT = 0.05, 0.9, 0.72
 
 S = [
-    ("hook", "THESE SHEETS | HAVE NOT BEEN WASHED | SINCE [r:TWENTY NINETEEN]", 0.4, "."),
-    ("hook", "NOW THEY ARE | [r:FIGHTING BACK]", 0.6, "."),
-    ("hook", "AND YOU | [b:VOTED FOR THIS]", 1.0, "."),
+    ("hook", "KEVIN'S SHEETS | ARE [r:ALIVE]", 0.25, "."),
+    ("hook", "FIVE YEARS | [r:UNWASHED] | NOW THEY | [r:FIGHT BACK]", 0.35, "."),
+    ("hook", "WAIT TILL YOU SEE | WHAT'S [y:UNDER THEM]", 0.9, "."),
     ("room", "KEVIN PULLS", 0, "."),
     ("room", "THE SHEET | [r:DOESN'T MOVE]", 0.8, "."),
     ("room", "IT HAS | BONDED WITH | THE MATTRESS", 0.9, "."),
@@ -40,7 +40,7 @@ S = [
 
 def events(L):
     c = lambda i, k: L[i]["chunks"][k]["start"]
-    return [(0.0, "crack", 0.7), (c(0, 2), "boing", 0.4), (L[1]["start"], "boing", 0.55), (L[2]["start"], "ding", 0.5),
+    return [(0.0, "crack", 0.9), (0.02, "boing", 0.6), (c(0, 1), "splat", 0.5), (L[1]["start"], "boing", 0.55), (c(1, 3), "crack", 0.6), (c(2, 1), "ding", 0.5),
             (L[4]["start"], "boing", 0.45), (L[4]["start"] + 0.1, "sad", 0.25), (c(5, 1), "pop", 0.5), (c(6, 2), "pop", 0.5), (L[7]["start"], "pop", 0.5),
             (c(8, 1), "boing", 0.5), (c(9, 1), "boing", 0.55), (c(10, 1), "pop", 0.5), (c(10, 1) + 0.12, "pop", 0.5),
             (c(10, 1) + 0.24, "pop", 0.5), (c(12, 1), "sad", 0.3),

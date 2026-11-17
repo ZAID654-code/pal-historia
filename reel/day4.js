@@ -4,20 +4,38 @@ const TICKS = () => [CS(19, 2), CS(20, 0), CS(20, 1), CS(20, 2)];
 const YEL = "#d2c05a";
 
 // Opens on the strongest image: the sheet already has him. Stamp over it, fight framing after.
-function sHook(t) {
+// HOOK: shock open (sheet lunges at the camera), then the premise, then a curiosity gap that pays off at "under them".
+function sheetFace(t, mouth) {
   const sh = Math.sin(t * 28) * 6;
-  const sheet = `<g transform="translate(${360 + sh},0)">
+  return `<g transform="translate(${360 + sh},0)">
     <path class="o" d="M150,1000 q-40,-200 60,-330 q150,-110 300,0 q100,130 60,330 l-60,-40 l-60,40 l-60,-40 l-60,40 l-60,-40 l-60,40Z" fill="#ddd6b3" transform="translate(-360,0)"/>
-    <ellipse cx="-70" cy="900" rx="40" ry="16" fill="#b9a24a"/><circle cx="80" cy="860" r="14" fill="#8a5a2c"/>
-    <path class="o" d="M-90,720 l60,26 M90,720 l-60,26" fill="none" stroke-width="10"/>
-    <circle cx="-52" cy="770" r="14" fill="#151515"/><circle cx="52" cy="770" r="14" fill="#151515"/>
-    <path class="o" d="M-50,840 q50,-34 100,0" fill="none" stroke-width="8"/>
+    <ellipse cx="-70" cy="900" rx="40" ry="16" fill="#b9a24a"/><circle cx="80" cy="930" r="14" fill="#8a5a2c"/><ellipse cx="110" cy="760" rx="22" ry="12" fill="#c9b458"/>
+    <path class="o" d="M-96,712 l64,30 M96,712 l-64,30" fill="none" stroke-width="12"/>
+    <circle cx="-54" cy="770" r="16" fill="#151515"/><circle cx="54" cy="770" r="16" fill="#151515"/><circle cx="-48" cy="764" r="5" fill="#fff"/><circle cx="60" cy="764" r="5" fill="#fff"/>
+    <g transform="translate(0,860) scale(1,${0.25 + 0.75 * mouth})"><path class="o" d="M-80,-30 q80,-20 160,0 q-10,90 -80,90 q-70,0 -80,-90Z" fill="#4a1414"/>
+      <path d="M-70,-28 l12,26 l12,-28 l12,26 l12,-28 l12,26 l12,-28 l12,26 l12,-28 l12,26 l12,-28 l12,26 l10,-24" fill="#e9d98a" stroke="#151515" stroke-width="3"/></g>
     <path class="o" d="M-200,760 q-90,-60 -60,-170" fill="none" stroke="#ddd6b3" stroke-width="44"/><path class="o" d="M200,760 q90,-60 60,-170" fill="none" stroke="#ddd6b3" stroke-width="44"/></g>`;
-  return bedroom(t, { sheet: "#7a5236", clean: true })
-    + kevin(Object.assign({ x: 360 - sh, y: 1090, s: 1.1, t, expr: "shock", aL: 150 + sh * 3, aR: 150 - sh * 3, tilt: sh }, K)) + sheet
-    + stampFx(t, "SHEETS LAST WASHED", "2019", LS(1))
-    + (t < LS(2) - 0.2 ? sticker(360, 420, "ROUND 3", COL.r, pop(t, LS(1) + 0.1), -5, 64, "#fff") : "")
-    + voteWon(t, LS(2), LE(2) + 0.5, "SHEETS", COL.y);
+}
+function sHook(t) {
+  const lunge = 1 - eo(prog(t, 0, LS(1) - 0.1));                      // 1 -> 0 over the first line
+  const z = 1 + 0.9 * lunge, roar = t < LS(1) ? Math.abs(Math.sin(t * 7)) : 0.3 + 0.2 * Math.abs(Math.sin(t * 5));
+  const drag = eo(prog(t, CS(1, 2), 0.5)), sh = Math.sin(t * 28) * 6;
+  const flash = t > 0.04 && t < 0.2 ? 1 - (t - 0.04) / 0.16 : 0;
+  // lump under the duvet that moves: the curiosity gap
+  const lump = t >= LS(2) ? `<g transform="translate(${615 + Math.sin(t * 5) * 20},${905 - Math.abs(Math.sin(t * 9)) * 18})"><ellipse class="o" rx="60" ry="36" fill="#cfc79a"/></g>
+    <text x="${615 + Math.sin(t * 5) * 20}" y="850" text-anchor="middle" font-size="${70 * pop(t, CS(2, 1))}" fill="${COL.y}" stroke="#151515" stroke-width="10" paint-order="stroke">?</text>` : "";
+  const scene = bedroom(t, { sheet: "#7a5236", clean: true })
+    + kevin(Object.assign({ x: 360 - sh, y: 1090 + 70 * drag, s: 1.1, t, expr: "shock", aL: 150 + sh * 3, aR: 150 - sh * 3, tilt: sh + 12 * drag }, K))
+    + sheetFace(t, roar) + lump;
+  // muted-readable title, on screen for the whole hook
+  const tk = 1 + 0.15 * (1 - eo(prog(t, 0, 0.25)));
+  const title = `<g transform="translate(360,${330}) scale(${tk})"><rect class="o" x="-320" y="-62" width="640" height="124" rx="16" fill="#fff"/>
+      <text text-anchor="middle" y="-8" font-size="44" fill="#151515">HE HASN'T WASHED HIS SHEETS</text>
+      <text text-anchor="middle" y="44" font-size="46" fill="${COL.r}">IN FIVE YEARS</text></g>`;
+  return `<g transform="translate(360,820) scale(${z}) translate(-360,-820)">${scene}</g>`
+    + (t >= CS(1, 2) && t < LS(2) + 0.3 ? sticker(360, 470, "ROUND 3", COL.r, pop(t, CS(1, 2)), -5, 60, "#fff") : "")
+    + title + voteWon(t, LS(2) + 0.3, LE(2) + 0.6, "SHEETS", COL.y, 500)
+    + `<rect width="720" height="1280" fill="#ff2a2a" opacity="${0.7 * flash}"/>`;
 }
 
 function sRoom(t) {
@@ -136,12 +154,12 @@ function sBed(t) {
 // SHEETS HP: 100 until help arrives, then drops with every win, 0 on the last wash.
 const HITS = () => [[CS(16, 2), 80], [CS(18, 2), 60], [CS(19, 2), 45], [CS(20, 0), 30], [CS(20, 1), 15], [CS(20, 2), 0]];
 function hpBar(t, name) {
-  if (t < LS(1) || name === "stairs" || name === "bed") return "";
+  if (t < LS(2) || name === "stairs" || name === "bed") return "";
   let v = 100, from = 100, at = -9;
   for (const [x, to] of HITS()) if (t >= x) { from = v; v = to; at = x; }
   const cur = lerp(from, v, eo(prog(t, at, 0.35))), hit = t - at < 0.25, ko = v === 0 && t - at > 0.3;
   const note = (t0, txt, col) => { const k = prog(t, t0, 1.0); return k > 0 && k < 1 ? `<text x="610" y="${430 - k * 30}" text-anchor="middle" font-size="44" fill="${col}" stroke="#0a0a0a" stroke-width="9" paint-order="stroke" opacity="${1 - k * k}">${txt}</text>` : ""; };
-  return `<g transform="translate(${hit ? Math.sin(t * 90) * 5 : 0},${-40 * (1 - eo(prog(t, LS(1), 0.3)))})" opacity="${prog(t, LS(1), 0.3)}">
+  return `<g transform="translate(${hit ? Math.sin(t * 90) * 5 : 0},${-40 * (1 - eo(prog(t, LS(2), 0.3)))})" opacity="${prog(t, LS(2), 0.3)}">
       <rect class="o" x="28" y="230" width="664" height="36" rx="10" fill="#14141c"/>
       <rect x="150" y="238" width="${534 * cur / 100}" height="20" rx="6" fill="${hit ? "#fff" : mixCol(COL.r, "#ff9a2e", 1 - cur / 100)}"/>
       <text class="ui" x="40" y="255" font-size="17" font-weight="800" fill="#fff">SHEETS HP</text>

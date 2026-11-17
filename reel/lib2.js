@@ -116,3 +116,56 @@ const HELD = {
   razor: `<g transform="translate(0,150) rotate(180)"><rect class="o" x="-7" y="0" width="14" height="70" rx="5" fill="#c9d3da"/><rect class="o" x="-26" y="66" width="52" height="20" rx="4" fill="#8a97a3"/></g>`,
   phone: `<g transform="translate(0,150)"><rect class="o" x="-22" y="-40" width="44" height="76" rx="8" fill="#fff"/><rect x="-16" y="-30" width="32" height="50" fill="#cfe6ff"/></g>`,
 };
+
+/* ---------- template v3 pieces: stamp, vote overlay, meter, ticks, achievement ---------- */
+const hex2 = c => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16));
+const mixCol = (c1, c2, k) => { const a = hex2(c1), b = hex2(c2); return "#" + a.map((v, i) => Math.round(v + (b[i] - v) * clamp(k)).toString(16).padStart(2, "0")).join(""); };
+const stepsOf = (t, ticks) => ticks.filter(x => t >= x).length;
+// eased 0..1 progress across a list of tick times
+function tickProg(t, ticks) { const n = stepsOf(t, ticks); return n ? clamp((n - 1 + eo(prog(t, ticks[n - 1], 0.4))) / ticks.length) : 0; }
+
+function stampFx(t, small, big, tOut, y = 420) {
+  const slam = t < 0.25 ? 1.5 - 0.5 * eo(t / 0.25) : 1, out = 1 - prog(t, tOut - 0.15, 0.2);
+  return out <= 0 ? "" : `<g transform="translate(360,${y}) rotate(-7) scale(${slam * out})"><rect x="-310" y="-92" width="620" height="184" rx="16" fill="#fff" stroke="${COL.r}" stroke-width="12"/>
+    <text text-anchor="middle" y="-18" font-size="${small.length > 16 ? 44 : 54}" fill="#151515">${small}</text><text text-anchor="middle" y="66" font-size="84" fill="${COL.r}">${big}</text></g>`;
+}
+function voteWon(t, t0, t1, label, col = COL.b, y = 420) {
+  const v = t >= t0 ? pop(t, t0) * (1 - prog(t, t1, 0.2)) : 0;
+  return v <= 0 ? "" : `<g transform="translate(360,${y}) rotate(-3) scale(${v})"><rect class="o" x="-260" y="-70" width="520" height="140" rx="18" fill="#14141c"/>
+    <text class="ui" x="-230" y="-26" font-size="20" font-weight="800" fill="#8a8aa0">YOUR VOTE</text><text x="-230" y="40" font-size="${label.length > 10 ? 48 : 60}" fill="${col}">${label} WON</text>
+    <circle class="o" cx="200" cy="6" r="36" fill="${COL.g}"/><path d="M182,6 l14,14 l24,-28" stroke="#151515" stroke-width="9" fill="none" stroke-linecap="round"/></g>`;
+}
+function meterFx(x, y, label, clean, bad = "#8a5a2c") {
+  return `<g transform="translate(${x},${y}) scale(.92)"><rect class="o" x="-34" y="-240" width="68" height="480" rx="14" fill="#14141c"/>
+    <rect x="-22" y="${-228 + 456 * clean}" width="44" height="${456 * (1 - clean)}" rx="8" fill="${mixCol(bad, COL.g, clean)}"/>
+    <text text-anchor="middle" y="-262" font-size="30" fill="#151515" stroke="#fff" stroke-width="6" paint-order="stroke">${label}</text>
+    <text text-anchor="middle" y="290" font-size="40" fill="#151515" stroke="#fff" stroke-width="6" paint-order="stroke">${Math.round(100 * (1 - clean))}%</text></g>`;
+}
+function tickFx(t, ticks, x = 300) {
+  let s = "";
+  ticks.forEach((x0, i) => { const k = prog(t, x0, 0.9); if (k > 0 && k < 1) s += `<text x="${x + i * 20}" y="${620 - eo(k) * 380}" text-anchor="middle" font-size="${70 + 30 * back(prog(t, x0, 0.2))}" fill="${COL.g}" stroke="#0a0a0a" stroke-width="12" paint-order="stroke" opacity="${1 - k * k}">+1%</text>`; });
+  return s;
+}
+function steamFx(open, cy = 700) {
+  let s = "";
+  for (let i = 0; i < 14; i++) { const a = i / 14 * Math.PI * 2, r = 60 + rnd(i) * 160; s += `<circle cx="${360 + Math.cos(a) * (r + open * 620)}" cy="${cy + Math.sin(a) * (r * 1.4 + open * 760)}" r="${200 + rnd(i + 9) * 80}" fill="#fff" opacity="${0.96 * (1 - open * 0.6)}"/>`; }
+  return s + `<circle cx="360" cy="${cy}" r="${320 * (1 - open)}" fill="#fff"/>`;
+}
+function confettiFx(t, t0) {
+  const w = t - t0; let s = "";
+  if (w >= 0) for (let i = 0; i < 46; i++) { const x = rnd(i) * 720, v = 500 + rnd(i + 70) * 500; s += `<rect x="${x + Math.sin(w * 5 + i) * 30}" y="${-40 + w * v - 60 * rnd(i + 30)}" width="16" height="26" fill="${[COL.y, COL.g, COL.p, COL.b, COL.r][i % 5]}" transform="rotate(${w * 400 + i * 40},${x},${-40 + w * v})"/>`; }
+  return s;
+}
+function achieve(t, t0, n, title, y = 420) {
+  const k = pop(t, t0);
+  return k <= 0 ? "" : `<g transform="translate(360,${y}) rotate(-3) scale(${k})"><rect class="o" x="-300" y="-66" width="600" height="132" rx="20" fill="#14141c"/>
+    <circle class="o" cx="-230" cy="0" r="44" fill="${COL.y}"/><path d="M-230,-24 l8,16 l18,2 l-13,13 l3,18 l-16,-9 l-16,9 l3,-18 l-13,-13 l18,-2Z" fill="#151515"/>
+    <text class="ui" x="-166" y="-16" font-size="20" font-weight="800" fill="#8a8aa0">FIX ${n} OF 30 UNLOCKED</text><text x="-166" y="40" font-size="${title.length > 14 ? 42 : 52}" fill="${COL.g}">${title}</text></g>`;
+}
+const premiseTag = name => name === "vote" ? "" : `<g class="ui"><rect x="474" y="140" width="218" height="78" rx="10" fill="#101014" opacity=".92"/>
+  <text class="ui" x="583" y="162" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">KEVIN VS</text><text x="583" y="204" text-anchor="middle" font-size="30" fill="${COL.p}">A WEDDING</text></g>`;
+function voteBadge(t, t0, a, b) {
+  return t < t0 ? "" : `<g transform="translate(360,${290 - 60 * (1 - eo(prog(t, t0, 0.3)))})" opacity="${prog(t, t0, 0.3)}">
+    <rect class="o" x="-250" y="-34" width="500" height="68" rx="34" fill="#14141c"/>
+    <text text-anchor="middle" y="14" font-size="${(a + b).length > 14 ? 32 : 36}" fill="#fff">NEXT: <tspan fill="${COL.y}">${a}</tspan> OR <tspan fill="${COL.b}">${b}</tspan>?</text></g>`;
+}

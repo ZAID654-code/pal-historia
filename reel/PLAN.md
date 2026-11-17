@@ -24,27 +24,39 @@ Contents: 1 Rules · 2 Episode template · 3 Day-by-day schedule · 4 Fix cards 
 
 ---
 
-## 2. Episode template (v3, from Day 2 and Day 3 retention data)
+## 2. Episode template (v4, built from the Day 2 and Day 3 graphs)
 
-Length 40-50 s. A stranger must understand it with zero context.
+**What the graphs said**
 
-| Time | Beat | What is on screen |
+| Zone | Day 2 | Day 3 | Cause | Rule that fixes it |
+|---|---|---|---|---|
+| 0-3 s | — | 25% skip | Best image came late | FRAME 0 is the strongest picture of the episode |
+| 3-10 s | down to 45% | down to 52% | Setup, dark results card | No setup. Fact, fight, "you voted for this" |
+| 10-45 s | flat 35% | slides 50 → 30% | No single goal to wait for | BOSS BAR on screen from second 3 until it hits zero |
+| last 3 s | to 10% | 28 → 17% | Cut to a vote screen = "video over" | Vote laid over the live scene, no cut |
+| comments | 0.6% | 0.2% | No reason to type, trial reel | "Best comment gets shown tomorrow" + TOP COMMENT card |
+| length | 71 s | 59 s held 28% | — | 55-60 s is fine |
+
+**Beat clock (every episode, 55-60 s)**
+
+| Time | Beat | On screen |
 |---|---|---|
-| 0.0 s | STAMP | Big stamp slams in: the one fact that sells the premise ("LAST SHOWER: 2019"). Voice says it. Scene already moving. |
-| ~3 s | YOUR VOTE | 2-second overlay "X WON" over the scene. Voice: "You voted to fix that." |
-| ~5 s | PEAK 1 | The thing going wrong right now. |
-| 7-20 s | GAGS | 4 gags, one every 3-4 s, each bigger than the last. Third one involves another person. |
-| ~45% | VOTE BADGE | Pill "NEXT: A OR B?" appears under the HUD and stays. |
-| 20-27 s | REWARD | The satisfying part. A meter drains or fills. Glow-up ticks +1% at a time with rising coin sounds, on a three-beat line ("layer by layer by layer"). Kevin visibly changes. |
-| 27-32 s | REVEAL | Steam or flash, before/after, ACHIEVEMENT banner "FIX N OF 30 UNLOCKED", confetti. |
-| 32-38 s | TWIST | Emily text (on Emily days) or the cliffhanger that sets up the vote. |
-| last 5 s | VOTE | Two word buttons laid OVER the cliffhanger scene, which keeps moving. No cut to a separate vote screen (Day 3 data: viewers swiped away the moment the split screen appeared). Line under the buttons: "best comment gets shown tomorrow". |
+| 0.0 s | FRAME 0 + STAMP | Strongest image, already moving. Stamp slams over it. Voice starts at 0.05 s. |
+| 3 s | FIGHT | "Now it is fighting back." ROUND sticker. BOSS BAR drops in under the HUD at 100. |
+| 5 s | YOUR VOTE | 2-second "X WON" overlay. Voice: "and you voted for this." |
+| 7-22 s | GAGS 1-4 | One every 3-4 s. Two of them are failed attacks: MISS! / BLOCKED! on the bar. New location by 18 s. |
+| ~22 s | HELPER | A side character gives Kevin the weapon. First hit: bar -20. Vote badge "NEXT: A OR B?" appears and stays. |
+| 22-33 s | GAGS 5-6 | Second location. One more BLOCKED!, one more hit. |
+| 33-40 s | REWARD | Meter drains, glow-up +1% per tick with rising coins, bar -15 each, last tick = K.O. |
+| 40-47 s | REVEAL | Steam parts, before/after, "FIX N OF 30 UNLOCKED", confetti. |
+| 47-53 s | TWIST | TOP COMMENT card (2 s) or Emily text, then the cliffhanger. |
+| 53-59 s | VOTE | Two buttons over the cliffhanger, scene still moving. "Best comment gets shown tomorrow." Tail under 1 s. |
 
-Always on screen: DAYS LEFT, GLOW-UP %, "KEVIN VS A WEDDING" tag.
-Every day when there is a usable one: 2-second "TOP COMMENT" card showing a real comment from yesterday.
+Always on screen: DAYS LEFT, GLOW-UP %, "KEVIN VS A WEDDING", and from second 3 the BOSS BAR.
+A stranger must understand the episode with zero context: 92% of views come from the Reels tab.
 
-Day 3 trial-reel result (60 s cut): 52% left at 10 s, 28% at 55 s, 11 shares, comment rate 0.2%.
-So 60 s is fine; the weak point is commenting. Post episodes as normal reels so followers can vote.
+Day 3 trial reel (60 s cut): 2,853 views, 23 s average watch, 11 shares, 4 follows.
+Post episodes as normal reels so followers can vote. Use trial reels only to test a second opening.
 
 ---
 
@@ -57,9 +69,9 @@ So 60 s is fine; the weak point is commenting. Post episodes as normal reels so 
 |---|---|---|---|---|---|
 | 1 | 30 | Where he starts *(posted)* | 0 | TEETH / SHEETS | Emily's first text |
 | 2 | 29 | TEETH *(posted)* | 4 | SHEETS / SHOWER | Emily: mum is the receptionist |
-| 3 | 28 | SHOWER *(built)* | 9 | SHEETS / DEODORANT | Emily wants a photo, gets an elbow |
-| 4 | 27 | winner | 13 | loser / GYM | |
-| 5 | 26 | winner | 17 | loser / HAIRCUT | Emily text |
+| 3 | 28 | SHOWER *(posted as trial reel)* | 9 | SHEETS / DEODORANT | Emily wants a photo, gets an elbow |
+| 4 | 27 | SHEETS *(built, template v4)* | 13 | DEODORANT / GYM | |
+| 5 | 26 | winner + TOP COMMENT card | 17 | loser / HAIRCUT | Emily text |
 | 6 | 25 | winner | 21 | loser / BEARD | |
 | 7 | 24 | winner | 24 | loser / LAUNDRY | Week-1 weigh-in opens the episode |
 | 8 | 23 | winner | 28 | loser / TRASH | Emily text |
@@ -93,12 +105,15 @@ moves to the next menu.
 
 ## 4. Fix cards
 
-One card per fix. Fields: STAMP (second 0) · HOOK (voice, first line) · GAGS (in order) ·
+One card per fix. Fields: STAMP (second 0) · FRAME 0 (the opening picture) · BOSS BAR (name, the two
+failed attacks, who lands the first hit) · HOOK (voice, first line) · GAGS (in order) ·
 REWARD (meter + three-beat tick line) · ACHIEVEMENT · CLIFF (last beat before the vote) ·
 CAPTION (first line of the post).
 
 ### SHEETS
 - STAMP: SHEETS LAST WASHED: 2019
+- FRAME 0: the sheet already wrapped around Kevin, shaking him
+- BOSS BAR: SHEETS HP — BLOCKED: he pulls, nothing moves · the washing machine locks itself, the next one unplugs — FIRST HIT: old lady's detergent
 - HOOK: These sheets have not been washed since twenty nineteen. They are fighting back.
 - GAGS: bonded with the mattress → underneath: a pizza slice, a remote, a second sheet → the washing machine reads the label and locks its own door → an old lady hands him her detergent, all of it
 - REWARD: YELLOW meter 100 → 0. "Wash, after wash, after wash."
@@ -108,6 +123,8 @@ CAPTION (first line of the post).
 
 ### DEODORANT
 - STAMP: DEODORANT OWNED: 0
+- FRAME 0: shop assistant holding a can out with tongs, shelf labels curling from the smell
+- BOSS BAR: STINK HP — BLOCKED: the first can gives up and deflates · the hoodie coughs the spray back out — FIRST HIT: the horse-strength can
 - HOOK: The shop assistant is holding the can at arm's length. With tongs.
 - GAGS: he asks for the strongest one, she comes back with one for horses → first spray, the hoodie coughs → the shop dog leaves → the paper tester strip turns brown
 - REWARD: STINK meter 100 → 0. "Spray, by spray, by spray."
@@ -117,6 +134,8 @@ CAPTION (first line of the post).
 
 ### GYM
 - STAMP: LAST WORKOUT: NEVER
+- FRAME 0: Kevin pinned under an empty bar, legs kicking
+- BOSS BAR: GRAVITY HP — BLOCKED: the treadmill throws him off · the bar pins him a second time — FIRST HIT: the big man's towel and one finger on the bar
 - HOOK: Kevin has been under this bar for eleven minutes. There is no weight on it.
 - GAGS: sign-up form, under occupation he writes "goblin" → treadmill speed one, ninety seconds, a personal best → the biggest man in the building walks over... and hands him a towel: "first day is the hardest, king" → one push-up, the whole gym claps
 - REWARD: STRENGTH meter 0 → full. "Rep, by rep, by... that was the rep."
@@ -126,6 +145,8 @@ CAPTION (first line of the post).
 
 ### HAIRCUT
 - STAMP: LAST HAIRCUT: 2019
+- FRAME 0: comb stuck in his hair, a barber hanging off it with both feet off the floor
+- BOSS BAR: HAIR HP — BLOCKED: the scissors snap · the clippers start smoking — FIRST HIT: backup barber with the hedge trimmer
 - HOOK: It took three barbers. One of them has quit.
 - GAGS: the comb goes in and does not come out → inside they find a pizza crust and a pen that still works → the barber calls for backup, backup brings a hedge trimmer → the cape comes off: there is a forehead under there
 - REWARD: HAIR meter 100 → 20. "Snip, by snip, by snip."
@@ -135,6 +156,8 @@ CAPTION (first line of the post).
 
 ### BEARD
 - STAMP: BEARD DIRECTIONS: 3
+- FRAME 0: razor sparking and vibrating out of his hand
+- BOSS BAR: BEARD HP — BLOCKED: the blade goes blunt on the first stroke · the foam runs out — FIRST HIT: a fresh pack of five blades, he needs all five
 - HOOK: The razor is making a noise razors do not make.
 - GAGS: he shaves the left side, now it grows in two directions → the foam runs out, he uses toothpaste → he finds his chin, it has a dimple nobody knew about → the razor retires and gets framed
 - REWARD: STUBBLE meter 100 → 0. "Stroke, by stroke, by stroke."
@@ -144,6 +167,8 @@ CAPTION (first line of the post).
 
 ### LAUNDRY
 - STAMP: HOODIE WORN SINCE: MARCH
+- FRAME 0: the empty hoodie standing up with its sleeves crossed, Kevin in a towel
+- BOSS BAR: HOODIE HP — BLOCKED: it grabs the door frame · it climbs back out of the machine — FIRST HIT: the laundromat lady sits on the lid
 - HOOK: The hoodie is standing up. Kevin is not in it.
 - GAGS: it walks itself to the machine → the stains have stains → in the pocket: four dollars, a game cartridge, a tooth that is not his → it comes out purple. It was never grey.
 - REWARD: STAINS meter 100 → 0. "Cycle, after cycle, after cycle."
@@ -153,6 +178,8 @@ CAPTION (first line of the post).
 
 ### TRASH
 - STAMP: FLOOR LAST SEEN: 2021
+- FRAME 0: Kevin waist-deep in rubbish, one arm out holding bag nine
+- BOSS BAR: MESS HP — BLOCKED: the bag splits · the pile slides back over the cleared patch — FIRST HIT: the bin men with the bigger truck
 - HOOK: Bag number nine. Kevin has not found the floor yet.
 - GAGS: the pizza-box tower has a tenant, a mouse with a tiny suitcase → he finds the floor, it is carpet, he always thought wood → he finds a second controller, then a third → the bin men see the pile and call for a bigger truck
 - REWARD: FLOOR meter 0 → 100. "Bag, after bag, after bag."
@@ -162,6 +189,8 @@ CAPTION (first line of the post).
 
 ### SKINCARE
 - STAMP: SKINCARE ROUTINE: RAIN
+- FRAME 0: the face-wash bottle leaning away from his face on the shelf
+- BOSS BAR: SPOTS HP — BLOCKED: the cleanser foams once and quits · the mask slides off — FIRST HIT: the second pharmacist's prescription tub
 - HOOK: The face wash says "for normal skin". Kevin puts it back.
 - GAGS: the pharmacist takes one look and fetches a second pharmacist → cucumber slices: he eats them → the face mask peels off in one piece, like a fossil of the old Kevin → the spots leave one at a time, waving
 - REWARD: SPOTS meter 100 → 10. "Layer, by layer, by layer."
@@ -171,6 +200,8 @@ CAPTION (first line of the post).
 
 ### FRIDGE
 - STAMP: FRIDGE: OPEN AT OWN RISK
+- FRAME 0: a green hand pulling the fridge door shut from inside
+- BOSS BAR: FRIDGE HP — BLOCKED: the door pulls back · the smell knocks him flat — FIRST HIT: the two plumbers in hazmat suits
 - HOOK: Something in the fridge just closed the door. From the inside.
 - GAGS: a sticky note says NO, in the food's handwriting → the milk is a solid → a jar from 2019 has its own weather → he buys one vegetable, the cashier asks if he is okay
 - REWARD: BIOHAZARD meter 100 → 0. "Shelf, by shelf, by shelf."
@@ -180,6 +211,8 @@ CAPTION (first line of the post).
 
 ### SLEEP
 - STAMP: BEDTIME: 4 AM
+- FRAME 0: Kevin wide-eyed in bed, clock flipping to 4:00, phone glowing on his face
+- BOSS BAR: PHONE HP — BLOCKED: one more video · the phone switches itself back on — FIRST HIT: he puts the phone in the fridge
 - HOOK: It is seven a.m. Kevin has never seen seven a.m. from this side.
 - GAGS: the alarm rings, the alarm gives up first → the sun comes up and flinches (day 1 callback) → birds: he thought that was a ringtone → the eye bags pack their bags
 - REWARD: EYE BAGS meter 100 → 0. "Hour, by hour, by hour."
@@ -189,6 +222,8 @@ CAPTION (first line of the post).
 
 ### UNIBROW
 - STAMP: EYEBROWS: 1
+- FRAME 0: the thread snapped in two, the eyebrow untouched
+- BOSS BAR: BROW HP — BLOCKED: the thread snaps · the tweezers bend — FIRST HIT: wax strip, both hands, one foot on the chair
 - HOOK: The woman with the thread has asked for hazard pay.
 - GAGS: she says "on three" and goes on one → it comes off in one piece and crawls a little → he has two eyebrows now and looks permanently surprised → she frames the strip
 - REWARD: BROW meter 100 → 0. "Hair, by hair, by hair."
@@ -198,6 +233,8 @@ CAPTION (first line of the post).
 
 ### GAME
 - STAMP: HOURS PLAYED: 11,402
+- FRAME 0: uninstall bar reading 4 YEARS REMAINING, the controller gripping his hand
+- BOSS BAR: GAME HP — BLOCKED: "are you sure?" seven times · it reinstalls itself — FIRST HIT: the barber turns up with cash
 - HOOK: The uninstall bar says four years remaining.
 - GAGS: "are you sure?" seven times → his guild holds a funeral → the controller holds on to his hand → he sells the console. The buyer is the barber.
 - REWARD: SCREEN TIME meter 100 → 0. "Save, after save, after save."
@@ -207,6 +244,8 @@ CAPTION (first line of the post).
 
 ### POSTURE
 - STAMP: SPINE SHAPE: SHRIMP
+- FRAME 0: Kevin bent like a shrimp, a physio pulling his shoulders with a foot on his back
+- BOSS BAR: SHRIMP HP — BLOCKED: he springs back · the chair pulls him in — FIRST HIT: a broom handle down the back of the hoodie
 - HOOK: Kevin stands up straight. He is eleven centimetres taller.
 - GAGS: his back sounds like bubble wrap → he can see the top of the fridge, the lost remote is there → a door frame hits him for the first time in his life → his own shadow does a double take
 - REWARD: SHRIMP → HUMAN meter. "Click, by click, by click."
@@ -216,6 +255,8 @@ CAPTION (first line of the post).
 
 ### WALK
 - STAMP: STEPS TODAY: 41
+- FRAME 0: Kevin flat on the pavement, his own front door still in shot, 41 steps
+- BOSS BAR: DISTANCE HP — BLOCKED: a bench · an ice cream van — FIRST HIT: the pigeon walks ahead and waits for him
 - HOOK: Kevin has walked four hundred metres. He is calling it a hike.
 - GAGS: the pigeon overtakes him, on foot → an old man with a walking frame laps him → his phone asks "workout detected?" with a question mark → he reaches the corner shop and asks for a medal. He gets a receipt.
 - REWARD: STEPS meter 0 → 1,000. "Step, by step, by step."
@@ -225,6 +266,8 @@ CAPTION (first line of the post).
 
 ### COOK
 - STAMP: MEALS COOKED: 0
+- FRAME 0: smoke alarm screaming, Kevin holding a lettuce
+- BOSS BAR: KITCHEN HP — BLOCKED: the pan catches fire · the egg escapes — FIRST HIT: the neighbour hands a recipe through the door
 - HOOK: The smoke alarm is going off. He is making salad.
 - GAGS: his only pan is also his plate → the recipe says "season to taste", he seasons to fear → he cracks an egg, the shell stays in, the egg leaves → the neighbour knocks to check he is alive
 - REWARD: EDIBLE meter 0 → 100. "Bite, by bite, by bite."
@@ -234,6 +277,8 @@ CAPTION (first line of the post).
 
 ### SUIT
 - STAMP: SUIT YEAR: 2014
+- FRAME 0: the button stretched like a bowstring, aimed at the tailor
+- BOSS BAR: 2014 HP — BLOCKED: a seam rips · the tape measure is too short — FIRST HIT: three threads and a prayer
 - HOOK: The twenty fourteen suit. Second attempt. The button is watching.
 - GAGS: the tailor measures him, measures again, and sits down → one tape measure is not long enough, she staples two together → chalk marks everywhere, it looks like a crime scene → the button gets reinforced: three threads and a prayer
 - REWARD: FIT meter 0 → 100. "Stitch, by stitch, by stitch."
@@ -243,6 +288,8 @@ CAPTION (first line of the post).
 
 ### SHOES
 - STAMP: SHOES OWNED: SLIPPERS + 1 BOOT
+- FRAME 0: the assistant staring at the slippers, one slipper staring back
+- BOSS BAR: SLIPPERS HP — BLOCKED: his foot is wider than the box · he walks like a newborn deer — FIRST HIT: a shoehorn and two assistants
 - HOOK: The shoe shop assistant has seen the slippers. She is still looking.
 - GAGS: the foot-measuring thing only goes so far → his sock has a view → real shoes on, he walks like a newborn deer → the slippers get a goodbye. He keeps them.
 - REWARD: STYLE meter 0 → 100. "Step, by step, by step."
@@ -252,6 +299,8 @@ CAPTION (first line of the post).
 
 ### DANCE
 - STAMP: DANCE MOVES: 1 (ACCIDENTAL)
+- FRAME 0: Kevin mid-fall, the teacher's finger on the stop button
+- BOSS BAR: LEFT FEET HP — BLOCKED: he leads into a wall · the mop leads — FIRST HIT: footprints taped to the floor
 - HOOK: The dance teacher has stopped the music.
 - GAGS: Kevin leads, into a wall → he counts one, two, three out loud and gets to four → his practice partner is a mop. The mop leads. → "feel the rhythm": the rhythm is his heart rate, 180
 - REWARD: RHYTHM meter 0 → 60. "Step, by step, by step."
@@ -261,6 +310,8 @@ CAPTION (first line of the post).
 
 ### PHOTO
 - STAMP: LAST PHOTO: 2019
+- FRAME 0: phone screen over his face reading NO FACES FOUND
+- BOSS BAR: CAMERA HP — BLOCKED: he blinks · thumb over the lens — FIRST HIT: the mirror gives a thumbs up
 - HOOK: Emily wants a real photo. No elbows.
 - GAGS: forty-six attempts → face detection says "no faces found" → he tries a smile, the mirror gives a thumbs up → he sends the very first one
 - REWARD: ATTEMPTS counter, then "BEST OF 46". "Click, after click, after click."
@@ -270,6 +321,8 @@ CAPTION (first line of the post).
 
 ### COLOGNE
 - STAMP: COLOGNE: AIR FRESHENER
+- FRAME 0: lift doors opening, everyone inside leaning out for air
+- BOSS BAR: TOO MUCH HP — BLOCKED: he adds one more spray · the bee arrives — FIRST HIT: the laundromat lady: "less."
 - HOOK: Four sprays. The lift emptied on the second floor.
 - GAGS: the tester lady says "one", he hears "one bottle" → a bee follows him for an hour → the laundromat lady walks past: "less." → his new plants perk up when he leaves the room
 - REWARD: SPRAYS meter 4 → 1. "Less, and less, and less."
@@ -279,6 +332,8 @@ CAPTION (first line of the post).
 
 ### SPEECH (Day 23, style voted on Day 22)
 - STAMP: WORDS SPOKEN THIS MONTH: 9
+- FRAME 0: Kevin at the mirror, mouth open, nothing coming out, the card says HELLO
+- BOSS BAR: SILENCE HP — BLOCKED: his voice cracks · he forgets the groom's name — FIRST HIT: the mirror holds up cue cards
 - HOOK: Kevin has to give a speech. He has said nine words this month.
 - GAGS: he practises on the mirror, the mirror gives notes → index cards: the first says "hello", the second says "good luck" → FUNNY: his opening joke makes the pigeon leave / HEARTFELT: he cries at his own first line → he gets through it once. The mirror winks.
 - REWARD: CONFIDENCE meter 0 → 70. "Word, by word, by word."
@@ -288,6 +343,8 @@ CAPTION (first line of the post).
 
 ### GIFT
 - STAMP: GIFT LIST OPENED: TODAY
+- FRAME 0: a $300 price tag on a spoon, a moth leaving his wallet
+- BOSS BAR: GIFT LIST HP — BLOCKED: sold out · card declined — FIRST HIT: the barber's console money
 - HOOK: There is a gift list. Kevin found it this morning.
 - GAGS: one item left: a three hundred dollar spoon → he considers his own toaster, there is bread in it from 2019 → he wraps it in a pizza box → the card: he writes "happy birthday" and crosses it out
 - REWARD: WALLET meter 100 → 3. "Dollar, by dollar, by dollar."
@@ -297,6 +354,8 @@ CAPTION (first line of the post).
 
 ### TALK
 - STAMP: STRANGERS SPOKEN TO: 0
+- FRAME 0: Kevin frozen mid-wave, the stranger looking behind them
+- BOSS BAR: AWKWARD HP — BLOCKED: "you too" · wrong name — FIRST HIT: the big man: "morning, king"
 - HOOK: Kevin says good morning to a stranger. Out loud.
 - GAGS: it is four p.m. → the barista asks his name, he says "you too" → the cup says DEVIN. He is Devin now. → he holds a door open and gets stuck holding it for eleven people
 - REWARD: AWKWARD meter 100 → 30. "Word, by word, by word."
@@ -306,6 +365,8 @@ CAPTION (first line of the post).
 
 ### CALL
 - STAMP: PHONE CALLS ANSWERED: 0
+- FRAME 0: phone ringing EMILY, Kevin holding it at arm's length like a bomb
+- BOSS BAR: NERVES HP — BLOCKED: he drops it · his voice goes up an octave — FIRST HIT: she laughs, the good kind
 - HOOK: The phone is ringing. It says Emily. It is a real call.
 - GAGS: he practises "hello" in four voices → he answers on the last ring with "you too" → she laughs. The good kind. → fourteen minutes, he says thirty-one words, a record
 - REWARD: NERVES meter 100 → 0. "Minute, by minute, by minute."
@@ -315,6 +376,8 @@ CAPTION (first line of the post).
 
 ### TIE
 - STAMP: TIES TIED: 0
+- FRAME 0: the tie wrapped round his head and one arm
+- BOSS BAR: TIE HP — BLOCKED: the knot slips · the tutorial pauses to look at him — FIRST HIT: the button holds one end
 - HOOK: Forty minutes. The tie is winning.
 - GAGS: the tutorial pauses to look at him → he ties it to the door handle → he ties his finger into it → he considers a clip-on, the button judges him
 - REWARD: KNOT meter 0 → 100. "Loop, by loop, by loop."

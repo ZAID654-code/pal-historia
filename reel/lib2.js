@@ -164,8 +164,8 @@ function achieve(t, t0, n, title, y = 420) {
 }
 const premiseTag = name => name === "vote" ? "" : `<g class="ui"><rect x="474" y="140" width="218" height="78" rx="10" fill="#101014" opacity=".92"/>
   <text class="ui" x="583" y="162" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">KEVIN VS</text><text x="583" y="204" text-anchor="middle" font-size="30" fill="${COL.p}">A WEDDING</text></g>`;
-function voteBadge(t, t0, a, b) {
-  return t < t0 ? "" : `<g transform="translate(360,${290 - 60 * (1 - eo(prog(t, t0, 0.3)))})" opacity="${prog(t, t0, 0.3)}">
+function voteBadge(t, t0, a, b, y = 290) {
+  return t < t0 ? "" : `<g transform="translate(360,${y - 60 * (1 - eo(prog(t, t0, 0.3)))})" opacity="${prog(t, t0, 0.3)}">
     <rect class="o" x="-250" y="-34" width="500" height="68" rx="34" fill="#14141c"/>
     <text text-anchor="middle" y="14" font-size="${(a + b).length > 14 ? 32 : 36}" fill="#fff">NEXT: <tspan fill="${COL.y}">${a}</tspan> OR <tspan fill="${COL.b}">${b}</tspan>?</text></g>`;
 }

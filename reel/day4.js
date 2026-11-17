@@ -3,16 +3,10 @@ const K = { teeth: WHITE, clean: true, stink: false, noFlies: true };
 const TICKS = () => [CS(19, 2), CS(20, 0), CS(20, 1), CS(20, 2)];
 const YEL = "#d2c05a";
 
+// Opens on the strongest image: the sheet already has him. Stamp over it, fight framing after.
 function sHook(t) {
-  if (t < LS(2) - 0.15) {
-    const pull = Math.sin(t * 30) * 4;
-    return bedroom(t, { angry: 1, ax: 520, stink: 1 })
-      + `<path class="o" d="M${300 + pull},700 L400,905" fill="none" stroke="#ddd6b3" stroke-width="30"/>`
-      + kevin(Object.assign({ x: 200 + pull, y: 1090, s: 1.0, t: t * 2, look: 1, aR: 120, aL: 30, expr: "sad", tilt: -pull }, K))
-      + stampFx(t, "SHEETS LAST WASHED", "2019", LS(1)) + voteWon(t, LS(1), LS(2) - 0.4, "SHEETS", COL.y);
-  }
-  const sh = Math.sin(t * 28) * 6, k = back(prog(t, LS(2) - 0.15, 0.3));
-  const sheet = `<g transform="translate(${360 + sh},860) scale(${k}) translate(0,-860)">
+  const sh = Math.sin(t * 28) * 6;
+  const sheet = `<g transform="translate(${360 + sh},0)">
     <path class="o" d="M150,1000 q-40,-200 60,-330 q150,-110 300,0 q100,130 60,330 l-60,-40 l-60,40 l-60,-40 l-60,40 l-60,-40 l-60,40Z" fill="#ddd6b3" transform="translate(-360,0)"/>
     <ellipse cx="-70" cy="900" rx="40" ry="16" fill="#b9a24a"/><circle cx="80" cy="860" r="14" fill="#8a5a2c"/>
     <path class="o" d="M-90,720 l60,26 M90,720 l-60,26" fill="none" stroke-width="10"/>
@@ -21,7 +15,9 @@ function sHook(t) {
     <path class="o" d="M-200,760 q-90,-60 -60,-170" fill="none" stroke="#ddd6b3" stroke-width="44"/><path class="o" d="M200,760 q90,-60 60,-170" fill="none" stroke="#ddd6b3" stroke-width="44"/></g>`;
   return bedroom(t, { sheet: "#7a5236", clean: true })
     + kevin(Object.assign({ x: 360 - sh, y: 1090, s: 1.1, t, expr: "shock", aL: 150 + sh * 3, aR: 150 - sh * 3, tilt: sh }, K)) + sheet
-    + sticker(360, 420, "ROUND 3", COL.r, pop(t, CS(2, 1)), -5, 56, "#fff");
+    + stampFx(t, "SHEETS LAST WASHED", "2019", LS(1))
+    + (t < LS(2) - 0.2 ? sticker(360, 420, "ROUND 3", COL.r, pop(t, LS(1) + 0.1), -5, 64, "#fff") : "")
+    + voteWon(t, LS(2), LE(2) + 0.5, "SHEETS", COL.y);
 }
 
 function sRoom(t) {
@@ -36,7 +32,7 @@ function sRoom(t) {
     + sheetGhost(590, 470, pop(t, CS(8, 1)) * 0.8, t, "#cfc79a")
     + sheetGhost(130, 520, pop(t, CS(9, 1)) * 0.7, t + 1, "#bdb588")
     + [0, 1, 2, 3].map(i => sheetGhost(250 + i * 90, 400 + (i % 2) * 50, pop(t, CS(10, 1) + i * 0.1) * 0.32, t + i, "#e9e3c8")).join("")
-    + sticker(360, 330, "IT'S A FAMILY", COL.r, pop(t, CS(10, 1) + 0.3), -4, 44, "#fff");
+    + sticker(360, 350, "IT'S A FAMILY", COL.r, pop(t, CS(10, 1) + 0.3), -4, 44, "#fff");
 }
 
 function sStreet(t) {
@@ -72,7 +68,7 @@ function sLaundro(t) {
     face: `<circle class="o" cx="-22" cy="-458" r="20" fill="none" stroke-width="4"/><circle class="o" cx="26" cy="-458" r="20" fill="none" stroke-width="4"/>` });
   let bottles = "";
   for (let i = 0; i < 4; i++) { const k = pop(t, LS(17) + i * 0.12); if (k > 0) bottles += `<g transform="translate(${250 + i * 60},1050) scale(${k})"><rect class="o" x="-22" y="-70" width="44" height="70" rx="8" fill="${["#f08a4b", "#5cc8ff", "#7be04a", "#ff7ac0"][i]}"/><rect class="o" x="-11" y="-86" width="22" height="16" fill="#fff"/></g>`; }
-  return laundroBg() + `<rect class="o" x="190" y="380" width="340" height="64" rx="10" fill="#2a5fd0"/><text x="360" y="428" text-anchor="middle" font-size="42" fill="#fff">SUDS &amp; DUDS</text>
+  return laundroBg() + `<rect class="o" x="190" y="400" width="340" height="64" rx="10" fill="#2a5fd0"/><text x="360" y="448" text-anchor="middle" font-size="42" fill="#fff">SUDS &amp; DUDS</text>
     ${machine(130, false)}${machine(360, true)}${machine(590, false)}
     ${t >= CS(15, 1) && t < LS(16) - 0.4 ? (() => { const k = prog(t, CS(15, 1), 0.6); return `<path d="M690,900 q40,-${60 + k * 200} ${-30 - k * 60},-${120 + k * 260}" stroke="#151515" stroke-width="7" fill="none"/><g transform="translate(${660 - k * 60},${780 - k * 260}) rotate(${k * 200})"><rect class="o" x="-16" y="-12" width="32" height="28" rx="5" fill="#fff"/><path d="M-7,-12 v-14 M7,-12 v-14" stroke="#151515" stroke-width="5"/></g>` + sticker(560, 560, "NOT TODAY", COL.r, pop(t, CS(15, 1)), 6, 40, "#fff"); })() : ""}
     ${kevin(Object.assign({ x: 180, y: 1100, s: 0.95, t, look: 1, heldR: bundle, aR: 60, expr: give ? "shock" : locked ? "sad" : "neutral" }, K))}${lady}${bottles}`;
@@ -137,11 +133,28 @@ function sBed(t) {
     + (bad ? `<g transform="translate(210,${850 + Math.sin(t * 6) * 6}) scale(${k})"><path d="M-70,0 h140 M0,-70 v140" stroke="${COL.r}" stroke-width="0"/><circle r="150" fill="none" stroke="${COL.r}" stroke-width="10" stroke-dasharray="26 18" transform="rotate(${t * 60})"/></g>` : "");
 }
 
+// SHEETS HP: 100 until help arrives, then drops with every win, 0 on the last wash.
+const HITS = () => [[CS(16, 2), 80], [CS(18, 2), 60], [CS(19, 2), 45], [CS(20, 0), 30], [CS(20, 1), 15], [CS(20, 2), 0]];
+function hpBar(t, name) {
+  if (t < LS(1) || name === "stairs" || name === "bed") return "";
+  let v = 100, from = 100, at = -9;
+  for (const [x, to] of HITS()) if (t >= x) { from = v; v = to; at = x; }
+  const cur = lerp(from, v, eo(prog(t, at, 0.35))), hit = t - at < 0.25, ko = v === 0 && t - at > 0.3;
+  const note = (t0, txt, col) => { const k = prog(t, t0, 1.0); return k > 0 && k < 1 ? `<text x="610" y="${430 - k * 30}" text-anchor="middle" font-size="44" fill="${col}" stroke="#0a0a0a" stroke-width="9" paint-order="stroke" opacity="${1 - k * k}">${txt}</text>` : ""; };
+  return `<g transform="translate(${hit ? Math.sin(t * 90) * 5 : 0},${-40 * (1 - eo(prog(t, LS(1), 0.3)))})" opacity="${prog(t, LS(1), 0.3)}">
+      <rect class="o" x="28" y="230" width="664" height="36" rx="10" fill="#14141c"/>
+      <rect x="150" y="238" width="${534 * cur / 100}" height="20" rx="6" fill="${hit ? "#fff" : mixCol(COL.r, "#ff9a2e", 1 - cur / 100)}"/>
+      <text class="ui" x="40" y="255" font-size="17" font-weight="800" fill="#fff">SHEETS HP</text>
+      ${ko ? `<text x="417" y="258" text-anchor="middle" font-size="26" fill="${COL.g}">K.O.</text>` : ""}</g>`
+    + note(LS(4), "MISS!", "#fff") + note(CS(14, 0), "BLOCKED!", COL.r) + note(CS(15, 1), "BLOCKED!", COL.r)
+    + HITS().map(([x, to], i) => note(x, i < 2 ? "-20" : "-15", COL.y)).join("");
+}
+
 window.EP = {
   days: 27, pct: [9, 13, 0], pctFn: t => 9 + stepsOf(t, TICKS()),
   punch: [0, LS(1), LS(2), LS(4), CS(5, 1), CS(6, 2), LS(7), CS(8, 1), CS(9, 1), CS(10, 1), CS(12, 1), CS(14, 0), CS(15, 1), CS(16, 2), LS(17), CS(18, 2), ...TICKS(), LS(22), LS(24), LS(26), LS(27), LS(28), LS(29)],
   CAPY: { vote: 1180, hook: 1150, room: 1150, street: 1190, spin: 1150, reveal: 1130, stairs: 1150, bed: 1150 },
-  overlay: (t, n) => premiseTag(n) + (n !== "hook" && n !== "room" && n !== "street" && t < LS(30) - 0.3 ? voteBadge(t, LS(13) + 0.4, "DEODORANT", "GYM") : ""),
+  overlay: (t, n) => premiseTag(n) + hpBar(t, n) + (n !== "hook" && n !== "room" && n !== "street" && t < LS(30) - 0.3 ? voteBadge(t, LS(13) + 0.4, "DEODORANT", "GYM", n === "stairs" || n === "bed" ? 290 : 322) : ""),
   SC: {
     hook: sHook, room: sRoom, street: sStreet, laundro: sLaundro, spin: sSpin, reveal: sReveal, stairs: sStairs, bed: sBed,
     vote: t => voteScene(t, {

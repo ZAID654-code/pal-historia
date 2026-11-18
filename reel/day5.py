@@ -1,48 +1,57 @@
-"""Day 5: predicted winner GYM (over HAIRCUT). Edit VOTE in day5.js to the real split."""
+"""Day 5: DOUBLE FIX (comments split between DEODORANT and GYM). Template v4, ~60 s."""
 TOTAL = None
+LEAD, TAIL, UNIT = 0.05, 0.9, 0.72
 
 S = [
-    ("hook", "KEVIN HAS BEEN | UNDER THIS BAR | FOR [y:ELEVEN MINUTES]", 0.8, "."),
-    ("hook", "THERE IS | [r:NO WEIGHT] | ON IT", 1.6, "."),
-    ("card", "[y:YOU] DID THIS", 0.7, "."),
-    ("card", "YOU VOTED | [y:GYM]", 0.9, "."),
-    ("card", "THE [b:HAIRCUT] | CAN WAIT", 0, "."),
-    ("card", "THE HAIR | DISAGREES", 1.8, "."),
-    ("early", "THIRTY MINUTES | EARLIER", 0.9, "."),
-    ("desk", "FREE TRIAL", 0.8, "."),
-    ("desk", "UNDER OCCUPATION | KEVIN WRITES | [g:GOBLIN]", 1.6, "."),
-    ("tread", "ONE TREADMILL", 0, "."),
-    ("tread", "SPEED [y:ONE]", 0.8, "."),
-    ("tread", "KEVIN LASTS | NINETY SECONDS", 0.8, "."),
-    ("tread", "A PERSONAL | [y:BEST]", 1.8, "."),
-    ("big", "THEN THE | [r:BIGGEST MAN] | IN THE BUILDING | WALKS OVER", 0.9, "."),
-    ("big", "KEVIN PREPARES | TO [r:DIE]", 1.2, "."),
-    ("big", "THE MAN | HANDS HIM | A [b:TOWEL]", 0.8, "."),
-    ("big", "FIRST DAY | IS THE HARDEST | [y:KING]", 1.8, "."),
-    ("push", "ONE PUSH UP", 0.7, "."),
-    ("push", "AN ACTUAL ONE", 1, "."),
-    ("push", "THE WHOLE GYM | [y:CLAPS]", 0.8, "."),
-    ("push", "[g:EIGHTEEN PERCENT]", 1.8, "."),
-    ("phone", "THEN [p:EMILY] | TEXTS", 0.9, "."),
-    ("phone", "HER COUSIN | WORKS HERE", 0.8, "."),
-    ("phone", "THERE IS | A [r:VIDEO]", 1.8, "."),
-    ("vote", "DAY SIX", 0.8, "."),
-    ("vote", "[y:HAIRCUT]", 0, ","),
-    ("vote", "OR [b:BEARD]", 1, "?"),
-    ("vote", "ONE OF THEM | HAS TO GO", 0.8, "."),
-    ("vote", "[y:COMMENT] | ONE WORD", 0.8, "."),
-    ("vote", "DAY SIX STARTS | WITH YOUR [y:CHOICE]", 0, "."),
+    ("hook", "YOU COULDN'T | [y:DECIDE]", 0.25, "."),
+    ("hook", "SO KEVIN | IS DOING [r:BOTH] | ON THE SAME DAY", 0.35, "."),
+    ("hook", "IT IS GOING | [r:GREAT]", 0.9, "."),
+    ("hook", "HE HAS BEEN | UNDER THIS BAR | FOR [y:ELEVEN MINUTES]", 0.5, "."),
+    ("hook", "THERE IS | [r:NO WEIGHT] | ON IT", 0.9, "."),
+    ("desk", "THE SIGN UP FORM | ASKS FOR | HIS JOB", 0.4, "."),
+    ("desk", "UNDER OCCUPATION | HE WRITES | [g:GOBLIN]", 0.9, "."),
+    ("tread", "ON SPEED [y:ONE]", 0, ","),
+    ("tread", "THE TREADMILL | [r:THROWS HIM OFF]", 0.8, "."),
+    ("smell", "THEN HE STARTS | [o:SWEATING]", 0.5, "."),
+    ("smell", "THE SMELL | [r:CLEARS THE GYM]", 0.6, "."),
+    ("smell", "EVEN THE MIRRORS | [g:FOG UP]", 1.0, "."),
+    ("big", "THEN THE | [r:BIGGEST MAN] | IN THE BUILDING | WALKS OVER", 0.5, "."),
+    ("big", "KEVIN PREPARES | TO [r:DIE]", 0.7, "."),
+    ("big", "THE MAN | HANDS HIM | A [b:DEODORANT]", 0.5, "."),
+    ("big", "FIRST DAY | IS THE HARDEST | [y:KING]", 1.0, "."),
+    ("spray", "ONE SPRAY", 0, ","),
+    ("spray", "AND THE GYM | [g:COMES BACK]", 0.9, "."),
+    ("push", "NOW | [y:ONE PUSH UP]", 0.5, "."),
+    ("push", "[g:DOWN] | AND [g:UP] | AND [g:DOWN]", 0, ","),
+    ("push", "AND [g:UP]", 0.9, "."),
+    ("reveal", "THE WHOLE GYM | [y:CLAPS]", 0.5, "."),
+    ("reveal", "[g:SEVENTEEN PERCENT] | FIXED", 1.0, "."),
+    ("phone", "THEN [p:EMILY] | TEXTS", 0.4, "."),
+    ("phone", "HER COUSIN | WORKS HERE", 0.5, "."),
+    ("phone", "THERE IS | A [r:VIDEO]", 0.4, "."),
+    ("phone", "IT HAS | [r:MUSIC] NOW", 0.6, "."),
+    ("phone", "KEVIN REPLIES | [r:DELETE IT]", 0.5, "."),
+    ("phone", "SHE SAYS | [p:NO]", 1.0, "."),
+    ("cliff", "IN THE GYM MIRROR | KEVIN SEES | HIS [r:HAIR]", 0.5, "."),
+    ("cliff", "IT SEES HIM | [r:BACK]", 0.8, "."),
+    ("cliff", "[y:HAIRCUT] | OR [b:BEARD]", 0.5, "?"),
+    ("cliff", "YOU DECIDE | DAY SIX", 0, "."),
 ]
 
 
 def events(L):
     c = lambda i, k: L[i]["chunks"][k]["start"]
-    ev = [(c(1, 1), "sad", 0.35), (L[3]["start"], "pop", 0.5), (L[5]["start"], "boing", 0.4),
-          (c(8, 2), "ding", 0.45), (L[10]["start"], "pop", 0.4), (L[11]["end"], "boing", 0.55),
-          (L[12]["start"], "ding", 0.4), (c(13, 1), "crack", 0.5), (L[14]["start"], "sad", 0.35),
-          (c(15, 2), "pop", 0.5), (c(16, 2), "chime", 0.5), (L[17]["start"], "boing", 0.4),
-          (L[20]["start"], "ding", 0.5), (L[21]["start"] + 0.4, "ding", 0.5), (L[23]["start"], "ding", 0.5),
-          (L[25]["start"], "pop", 0.5), (L[26]["start"], "pop", 0.5), (L[28]["start"], "chime", 0.5)]
+    ev = [(0.0, "crack", 0.9), (0.02, "boing", 0.6), (c(1, 1), "pop", 0.5), (L[2]["start"], "sad", 0.35),
+          (c(3, 2), "ding", 0.4), (c(4, 1), "boing", 0.5), (c(8, 1), "crack", 0.6), (c(8, 1) + 0.1, "boing", 0.55),
+          (c(9, 1), "splat", 0.4), (c(10, 1), "sad", 0.35), (c(11, 1), "pop", 0.4), (c(12, 1), "crack", 0.5),
+          (L[13]["start"], "sad", 0.3), (c(14, 2), "ding", 0.5), (c(14, 2) + 0.05, "crack", 0.5), (c(15, 2), "chime", 0.45),
+          (L[16]["start"], "splat", 0.5), (L[16]["start"] + 0.3, "crack", 0.7), (c(17, 1), "chime", 0.5),
+          (c(18, 1), "ding", 0.4), (c(19, 0), "coin0", 0.6), (c(19, 1), "coin1", 0.6), (c(19, 2), "coin2", 0.6),
+          (L[20]["start"], "coin3", 0.65), (L[20]["start"] + 0.1, "crack", 0.7), (L[22]["start"], "chime", 0.7),
+          (L[22]["start"] + 0.12, "coin4", 0.5), (L[23]["start"] + 0.3, "ding", 0.5), (L[25]["start"], "ding", 0.5),
+          (c(29, 2), "boing", 0.45), (c(30, 1), "crack", 0.5), (L[31]["start"], "pop", 0.5), (c(31, 1), "pop", 0.5),
+          (L[32]["start"], "chime", 0.5)]
+    ev += [(c(6, 2), "ding", 0.45), (L[27]["start"], "send", 0.6), (c(28, 1), "ding", 0.5)]
     for k in range(8):  # clapping
-        ev.append((L[19]["start"] + k * 0.16, "pop", 0.35))
+        ev.append((L[21]["start"] + k * 0.15, "pop", 0.32))
     return ev

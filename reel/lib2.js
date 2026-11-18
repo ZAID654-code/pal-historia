@@ -71,8 +71,8 @@ function chat(t, t0, bubbles) {
     }
     const h = 28 * b.lines.length + 28, k = pop(t, b.at);
     const w = Math.max(...b.lines.map(l => l.length)) * 11.5 + 44;
-    if (k > 0) inner += `<g transform="translate(172,${y}) scale(${k})"><rect width="${w}" height="${h}" rx="24" fill="#e9e9ee"/>
-      <text class="ui" font-size="20" fill="#111">${b.lines.map((l, i) => `<tspan x="20" y="${36 + i * 28}">${l}</tspan>`).join("")}</text></g>`;
+    if (k > 0) inner += `<g transform="translate(${b.me ? 548 - w : 172},${y}) scale(${k})"><rect width="${w}" height="${h}" rx="24" fill="${b.me ? "#1d8bff" : "#e9e9ee"}"/>
+      <text class="ui" font-size="20" fill="${b.me ? "#fff" : "#111"}">${b.lines.map((l, i) => `<tspan x="20" y="${36 + i * 28}">${l}</tspan>`).join("")}</text></g>`;
     y += h + 16;
   }
   return phone(t, inner, t0);

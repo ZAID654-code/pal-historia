@@ -103,6 +103,64 @@ moves to the next menu.
 
 ---
 
+## 3b. Days 5-10: every branch
+
+Videos are built after each vote. This section says which video to build for any result.
+
+**Queue of new challengers (in order):** HAIRCUT → BEARD → LAUNDRY → TRASH → SKINCARE → FRIDGE → SLEEP → UNIBROW
+**Menu rule:** the loser stays and meets the next unused fix in the queue. A fix that loses 3 times leaves the menu
+(it comes back on Day 28). Tie or "both" → double fix that day (two boss bars), next menu = the next two in the queue.
+
+### Day 5 (26 days left, glow 13 → 17) — built, three versions
+
+| Day 4 vote result | Post this file | Ends with |
+|---|---|---|
+| DEODORANT wins | `out/day5deo.mp4` (pharmacy, laundromat lady, dog) | GYM or HAIRCUT |
+| GYM wins | `out/day5gym.mp4` (gym, towel, push-up) | DEODORANT or HAIRCUT |
+| tie / "both" | `out/day5both.mp4` (double fix) | HAIRCUT or BEARD |
+
+### Day 6 (25 days left, glow 17 → 21)
+
+| Came from | Menu | If A wins → Day 6 is | ends with | If B wins → Day 6 is | ends with |
+|---|---|---|---|---|---|
+| day5deo | GYM / HAIRCUT | GYM card | HAIRCUT / BEARD | HAIRCUT card | GYM / BEARD |
+| day5gym | DEODORANT / HAIRCUT | DEODORANT card | HAIRCUT / BEARD | HAIRCUT card | DEODORANT / BEARD |
+| day5both | HAIRCUT / BEARD | HAIRCUT card | BEARD / LAUNDRY | BEARD card | HAIRCUT / LAUNDRY |
+
+Day 6 must open the gag section with a 2-second TOP COMMENT card (promised on screen on Day 4 and 5).
+GYM and DEODORANT cards on Day 6 are the same episodes as day5gym / day5deo with the hook changed from
+"you voted for this" to "second time on the menu. You finally picked it."
+
+### Day 7 (24 days left, glow 21 → 24) — weigh-in day
+
+Opens with the scale before the stamp: Kevin steps on, the display reads **ONE AT A TIME**. 3 seconds, then
+the normal frame 0 of whichever fix won. Possible winners: GYM, DEODORANT, HAIRCUT, BEARD, LAUNDRY.
+End menu = Day 6 loser vs next in queue (BEARD, LAUNDRY or TRASH, whichever is next unused).
+
+### Day 8 (23 days left, glow 24 → 28) — Emily day
+
+Emily text goes in the TWIST slot. If day5deo was posted, the "aunt on your bus" text is used up: send
+"random q do you still have the green hoodie" → Kevin: "it's purple. it was always purple" instead
+(or, if LAUNDRY is done, Kevin: "it was never green. it was never purple. it is grey now").
+Possible winners: any of GYM, DEODORANT, HAIRCUT, BEARD, LAUNDRY, TRASH.
+
+### Day 9 (22 days left, glow 28 → 31)
+
+No fixed beat. Use the strongest running joke available: the pigeon (if WALK or TRASH), the barber (if HAIRCUT
+done, he waves from his shop), Gary the mould (if FRIDGE). Possible winners up to SKINCARE.
+
+### Day 10 (21 days left, glow 31 → 35) — one-third mark
+
+Last 3 seconds before the vote: split screen Day 1 Kevin vs today, stamp "10 DAYS". This is the best
+screenshot of the series so far: use it as the cover. Possible winners up to FRIDGE.
+
+### Still to fix whatever the votes do
+
+By Day 10, any fix that has never won but has been on the menu 3 times (most likely DEODORANT or GYM
+if people keep skipping them) leaves the menu and becomes the Day 28 disaster.
+
+---
+
 ## 4. Fix cards
 
 One card per fix. Fields: STAMP (second 0) · FRAME 0 (the opening picture) · BOSS BAR (name, the two

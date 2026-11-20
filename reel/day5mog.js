@@ -66,7 +66,30 @@ function rating(x, y, n, k, col) {
 }
 
 // FRAME 0: the mog shot. Musa lit and tall on the left, Kevin grey and shrinking on the right.
+// ---- opening variants for the trial-reel test (A = original) ----
+function hookB(t) {  // gross real moment, mid-action: Musa smells Kevin before he sees him
+  const z = 1 + 0.5 * (1 - eo(prog(t, 0, LS(1)))), flash = t > 0.04 && t < 0.2 ? 1 - (t - 0.04) / 0.16 : 0;
+  let cloud = "";
+  for (let i = 0; i < 9; i++) { const k = (t * 0.8 + i / 9) % 1; cloud += `<circle cx="${560 - k * 380}" cy="${700 + Math.sin(i * 2.1 + t * 3) * 120}" r="${40 + k * 50}" fill="#9bbf3a" opacity="${0.55 * Math.sin(k * Math.PI)}"/>`; }
+  const scene = `<rect width="720" height="1280" fill="#8a929e"/><rect y="1040" width="720" height="240" fill="#2b2f3a"/>`
+    + kevin(Object.assign({ x: 560, y: 1090, s: 1.0, t: t * 2, expr: "smug", look: -1 }, K))
+    + cloud
+    + musa({ x: 180, lookx: 1, armR: 150, mouth: "open", scared: true, face: `<path class="o" d="M-46,-500 l30,14 M48,-500 l-30,14" fill="none" stroke-width="7"/>` });
+  return `<g transform="translate(220,700) scale(${z}) translate(-220,-700)">${scene}</g>`
+    + sticker(400, 360, "SMELLED FROM THE CAR PARK", COL.r, 1, -4, 44, "#fff")
+    + `<rect width="720" height="1280" fill="#ff2a2a" opacity="${0.5 * flash}"/>`;
+}
+function hookC(t) {  // direct question to the viewer: rate him before you scroll
+  const z = 1 + 0.12 * Math.sin(t * 2);
+  return `<rect width="720" height="1280" fill="#14141c"/>`
+    + `<g transform="translate(360,1500) scale(${z}) translate(-360,-1500)">${kevin(Object.assign({ x: 360, y: 1500, s: 2.0, t, expr: "grin" }, K))}</g>`
+    + `<g transform="translate(360,330) scale(${1 + 0.15 * (1 - eo(prog(t, 0, 0.25)))})"><rect class="o" x="-320" y="-70" width="640" height="140" rx="16" fill="#fff"/>
+        <text text-anchor="middle" y="-10" font-size="52" fill="#151515">RATE HIM 1-10</text><text text-anchor="middle" y="48" font-size="40" fill="${COL.r}">BEFORE YOU SCROLL</text></g>`
+    + rating(560, 620, "?", pop(t, 0.2), COL.y);
+}
+
 function sMog(t) {
+  if (typeof VARIANT !== "undefined" && t < LS(1) - 0.1) return VARIANT === "B" ? hookB(t) : hookC(t);
   let rays = "";
   for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + (i - 4.5) * 0.22 + Math.sin(t) * 0.03; rays += `<path d="M190,560 L${190 + Math.cos(a - 0.08) * 1200},${560 + Math.sin(a - 0.08) * 1200} L${190 + Math.cos(a + 0.08) * 1200},${560 + Math.sin(a + 0.08) * 1200}Z" fill="#ffe680" opacity=".55"/>`; }
   const shrink = 1 - 0.12 * eo(prog(t, 0, 0.6)), sniff = t >= CS(6, 2);
